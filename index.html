@@ -1,0 +1,971 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>toOrto’s 南瓜屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="toOrto">
+    
+
+    
+    <meta name="keywords" content="逆向,Android,漏洞,CTF,python,安全">
+    
+    <meta name="description" content="Android Reverse Linux python">
+<meta property="og:type" content="website">
+<meta property="og:title" content="toOrto’s 南瓜屋">
+<meta property="og:url" content="http://to0rto.com/index.html">
+<meta property="og:site_name" content="toOrto’s 南瓜屋">
+<meta property="og:description" content="Android Reverse Linux python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="toOrto’s 南瓜屋">
+<meta name="twitter:description" content="Android Reverse Linux python">
+<meta name="twitter:creator" content="@to0rto.com">
+<link rel="publisher" href="to0rto.com">
+
+    
+    <link rel="alternative" href="/atom.xml" title="toOrto’s 南瓜屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="toOrto’s 南瓜屋" title="toOrto’s 南瓜屋"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="toOrto’s 南瓜屋">toOrto’s 南瓜屋</a></h1>
+				<h2 class="blog-motto">Wake up Up UP :)</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/categories">categories</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:to0rto.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/14/Android-Master-Key-9950697/" title="Android Masterkey #9950697 原理与测试" itemprop="url">Android Masterkey #9950697 原理与测试</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-14T14:32:16.000Z" itemprop="datePublished"> Published 2015-05-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><strong>注: 本文谢绝任何形式的转载，仅供学习交流</strong></p>
+<h2 id="漏洞简介">漏洞简介</h2><p>该漏洞同样可以绕过android签名机制，即在合法应用中注入恶意代码而不被发现。  </p>
+<h2 id="漏洞原理">漏洞原理</h2><p>由于在解析文件数据时，是通过文件长度偏移来计算文件数据的偏移地址，所以若该偏移地址被改变，就可以控制其取出的文件数据。
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/05/14/Android-Master-Key-9950697/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Vuln/">Vuln</a><a href="/tags/android/">android</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/05/14/Android-Master-Key-9950697/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/14/Android-Master-Key-9950697/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/16/Android-Masterkey-9695860/" title="Android Masterkey #9695860 原理简述与测试" itemprop="url">Android Masterkey #9695860 原理简述与测试</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-16T05:12:54.000Z" itemprop="datePublished"> Published 2015-04-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><strong>注: 本文谢绝任何形式的转载，仅供学习交流</strong></p>
+<h2 id="漏洞简介">漏洞简介</h2><p>本漏洞可以实现任意修改dex文件，绕过Android签名验证机制，即在合法应用中注入恶意代码而不被发现</p>
+<h2 id="漏洞原理简述">漏洞原理简述</h2><p>android在解析Zip包时，由于JAVA和C在处理Extra field length时不同，所以产生了这个漏洞。JAVA将Extra field length视为有符号数，而C++将其视为无符号数。所以产生了两种解析方式。
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/04/16/Android-Masterkey-9695860/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Vuln/">Vuln</a><a href="/tags/android/">android</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/04/16/Android-Masterkey-9695860/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/16/Android-Masterkey-9695860/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/15/Android-masterkey-8219321/" title="Android masterkey(8219321)原理分析与测试" itemprop="url">Android masterkey(8219321)原理分析与测试</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-15T02:55:16.000Z" itemprop="datePublished"> Published 2015-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="漏洞介绍">漏洞介绍</h2><p>该漏洞功能是可以绕过android签名验证，安装恶意apk。
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/04/15/Android-masterkey-8219321/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Vuln/">Vuln</a><a href="/tags/android/">android</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/04/15/Android-masterkey-8219321/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/15/Android-masterkey-8219321/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/14/modify-the-APK/" title="modify the APK" itemprop="url">modify the APK</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-14T07:27:17.000Z" itemprop="datePublished"> Published 2015-04-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="修改APK文件遇到的一些问题">修改APK文件遇到的一些问题</h2><p>问题1：<br>adb install xxx.apk时，出现：</p>
+<p><code>Zip EOCD: expected &gt;= 22 bytes, found 21</code></p>
+<p>解决方法：</p>
+<p>该问题是由于End of central directory record (EOCD)总长度不对造成的，笔者是由于少了一位0x00造成的。EOCD总长度本应该是22位，缺只有21位，则会报错。修改方法，检查缺失字段，并补齐。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/04/14/modify-the-APK/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/android/">android</a><a href="/tags/learn/">learn</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/04/14/modify-the-APK/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/14/modify-the-APK/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/10/python-Challenge-4/" title="python Challenge 4" itemprop="url">python Challenge 4</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-10T02:52:31.000Z" itemprop="datePublished"> Published 2015-04-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>主要学习用urllib2，索引字符串</p>
+<h2 id="题目">题目</h2><p>查看源代码，提示：urllib may help. DON’T TRY ALL NOTHINGS, since it will never<br>end. 400 times is more than enough.<br>访问网页里面包含的链接跳转到另一个页面，直到得到最终结果。
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/04/10/python-Challenge-4/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/python/">python</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/learn/">learn</a><a href="/tags/python/">python</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/04/10/python-Challenge-4/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/10/python-Challenge-4/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/09/python-Challenge-3/" title="python Challenge 3" itemprop="url">python Challenge 3</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-09T08:29:16.000Z" itemprop="datePublished"> Published 2015-04-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>简单学习了一下正则表达式，也算对正则表达式有了个大概的了解。</p>
+<h2 id="题目要求">题目要求</h2><p>找到周围有3个大写字母的小写字母。即要找匹配这种形式的字符串dKKKlMMMk。
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/04/09/python-Challenge-3/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/python/">python</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/learn/">learn</a><a href="/tags/python/">python</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/04/09/python-Challenge-3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/09/python-Challenge-3/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/08/python-Challenge-2/" title="python Challenge 2" itemprop="url">python Challenge 2</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-08T09:33:00.000Z" itemprop="datePublished"> Published 2015-04-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="题目要求">题目要求</h2><p>统计出现次数最少的字母</p>
+<h2 id="总体思路">总体思路</h2><p>主要思路如下：</p>
+<pre><code><span class="number">1.</span>获取字符
+<span class="number">2.</span>统计次数
+<span class="number">3.</span>将字符与次数联系到一起
+<span class="number">4.</span>排序
+<span class="number">5.</span>发现最小的<span class="keyword">Value</span>为<span class="number">1</span>，且有多个，则输出<span class="keyword">Value</span>为<span class="number">1</span>的字符
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/04/08/python-Challenge-2/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/python/">python</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/learn/">learn</a><a href="/tags/python/">python</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/04/08/python-Challenge-2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/08/python-Challenge-2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/08/crackme-writeup/" title="crackme writeup" itemprop="url">crackme writeup</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-08T03:34:00.000Z" itemprop="datePublished"> Published 2015-04-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>很早就想着搭建个博客，才搭，就贴一些很早就开始写的东西吧，曾经做的一些crackme的writeup,贴出来丰富下自己的小天地~ </p>
+<p>时间：2014年<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/04/08/crackme-writeup/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Reverse/">Reverse</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/crack/">crack</a><a href="/tags/ctf-writeup/">ctf writeup</a><a href="/tags/reverse/">reverse</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/04/08/crackme-writeup/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/08/crackme-writeup/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/06/python-Challenge/" title="python Challenge" itemprop="url">python Challenge</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-06T13:29:28.000Z" itemprop="datePublished"> Published 2015-04-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>学习python，第一二个challenge。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/04/06/python-Challenge/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/python/">python</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/python/">python</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/04/06/python-Challenge/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/06/python-Challenge/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/06/Android-路上ing/" title="Android 路上ing" itemprop="url">Android 路上ing</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-06T12:51:36.000Z" itemprop="datePublished"> Published 2015-04-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>记载在学习android的路上遇到的问题，希望和我一样的人，少走点弯路。</p>
+<h2 id="多台模拟器">多台模拟器</h2><p>当adb devices，显示多台可连机器时，用类似于以下的命令即可</p>
+<pre><code>adb <span class="operator">-s</span> emulator-<span class="number">5554</span> shell
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/04/06/Android-路上ing/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/apk/">apk</a><a href="/tags/调试/">调试</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/04/06/Android-路上ing/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/06/Android-路上ing/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reverse/" title="Reverse">Reverse<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ctf-writeup/" title="ctf writeup">ctf writeup<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">Tag Cloud</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/AOSP/" style="font-size: 10px;">AOSP</a><a href="/tags/Android/" style="font-size: 16.67px;">Android</a><a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a><a href="/tags/Vuln/" style="font-size: 16.67px;">Vuln</a><a href="/tags/adt/" style="font-size: 10px;">adt</a><a href="/tags/android/" style="font-size: 20px;">android</a><a href="/tags/apk/" style="font-size: 20px;">apk</a><a href="/tags/crack/" style="font-size: 10px;">crack</a><a href="/tags/ctf/" style="font-size: 13.33px;">ctf</a><a href="/tags/ctf-writeup/" style="font-size: 10px;">ctf writeup</a><a href="/tags/learn/" style="font-size: 20px;">learn</a><a href="/tags/python/" style="font-size: 20px;">python</a><a href="/tags/reverse/" style="font-size: 10px;">reverse</a><a href="/tags/writeup/" style="font-size: 13.33px;">writeup</a><a href="/tags/编译源码/" style="font-size: 10px;">编译源码</a><a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    </div>
+  </div>
+
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m toOrto. Welcome to my blog!  <br/>
+			Stay foolish, stay hunger.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/https://github.com/toOrto" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/to0rto.com" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/to0rto.com" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/to0rto.com" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="https://www.zhihu.com/people/to0rto.com" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/to0rto.com?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:toorto#foxmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://to0rto.com/about" target="_blank" title="toOrto">toOrto</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"toOrto"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fc8845d59c32a9a4490dcf517d9d0bffb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

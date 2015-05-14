@@ -1,0 +1,483 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Android Masterkey #9950697 原理与测试 | toOrto’s 南瓜屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="toOrto">
+    
+
+    
+    <meta name="keywords" content="逆向,Android,漏洞,CTF,python,安全">
+    
+    <meta name="description" content="注: 本文谢绝任何形式的转载，仅供学习交流
+漏洞简介该漏洞同样可以绕过android签名机制，即在合法应用中注入恶意代码而不被发现。  
+漏洞原理由于在解析文件数据时，是通过文件长度偏移来计算文件数据的偏移地址，所以若该偏移地址被改变，就可以控制其取出的文件数据。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Masterkey #9950697 原理与测试">
+<meta property="og:url" content="http://to0rto.com/2015/05/14/Android-Master-Key-9950697/index.html">
+<meta property="og:site_name" content="toOrto’s 南瓜屋">
+<meta property="og:description" content="注: 本文谢绝任何形式的转载，仅供学习交流
+漏洞简介该漏洞同样可以绕过android签名机制，即在合法应用中注入恶意代码而不被发现。  
+漏洞原理由于在解析文件数据时，是通过文件长度偏移来计算文件数据的偏移地址，所以若该偏移地址被改变，就可以控制其取出的文件数据。">
+<meta property="og:image" content="http://7xilbx.com1.z0.glb.clouddn.com/masterkey3_4.2.2.png">
+<meta property="og:image" content="http://7xilbx.com1.z0.glb.clouddn.com/masterkey3_4.4.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Masterkey #9950697 原理与测试">
+<meta name="twitter:description" content="注: 本文谢绝任何形式的转载，仅供学习交流
+漏洞简介该漏洞同样可以绕过android签名机制，即在合法应用中注入恶意代码而不被发现。  
+漏洞原理由于在解析文件数据时，是通过文件长度偏移来计算文件数据的偏移地址，所以若该偏移地址被改变，就可以控制其取出的文件数据。">
+<meta name="twitter:creator" content="@to0rto.com">
+<link rel="publisher" href="to0rto.com">
+
+    
+    <link rel="alternative" href="/atom.xml" title="toOrto’s 南瓜屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="toOrto’s 南瓜屋" title="toOrto’s 南瓜屋"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="toOrto’s 南瓜屋">toOrto’s 南瓜屋</a></h1>
+				<h2 class="blog-motto">Wake up Up UP :)</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/categories">categories</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:to0rto.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/14/Android-Master-Key-9950697/" title="Android Masterkey #9950697 原理与测试" itemprop="url">Android Masterkey #9950697 原理与测试</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-14T14:32:16.000Z" itemprop="datePublished"> Published 2015-05-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞简介"><span class="toc-number">1.</span> <span class="toc-text">漏洞简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理"><span class="toc-number">2.</span> <span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞测试"><span class="toc-number">3.</span> <span class="toc-text">漏洞测试</span></a></li></ol>
+		
+		</div>
+		
+		<p><strong>注: 本文谢绝任何形式的转载，仅供学习交流</strong></p>
+<h2 id="漏洞简介">漏洞简介</h2><p>该漏洞同样可以绕过android签名机制，即在合法应用中注入恶意代码而不被发现。  </p>
+<h2 id="漏洞原理">漏洞原理</h2><p>由于在解析文件数据时，是通过文件长度偏移来计算文件数据的偏移地址，所以若该偏移地址被改变，就可以控制其取出的文件数据。  <a id="more"></a></p>
+<p>Local file header 有一个字段用来表示文件名长度的，类型为ushort。最大为64K，<br>Central Directory中也有一个字段是用来表示文件名长度的，两者是相互对应的。<br>正常情况下，两者是相同的。<br>而我们现在可以将Local file header中的文件名长度改得足够大(比如64K)，    </p>
+<p>则当JAVA进行解析时，会按Central Directory结构中的长度（正常长度，比如我们要修改classes.dex文件，长度就位0x0B）来解析出数据，<br>而C++则会按Local file header中的长度（被改成64k）来解析出文件数据。    </p>
+<p>这样我们在相对偏移为64K的地方加上我们的恶意APK，则在实际执行时，将执行我们的恶意代码。</p>
+<h2 id="漏洞测试">漏洞测试</h2><p>已经有人利用python脚本实现修改文件长度，修改二进制文件来生成特定的apk文件。本文利用网上的POC，生成的apk文件可以绕过签名并执行恶意代码，测试版本为Android4.2.2，包含该漏洞。安装成功，执行恶意代码（本测试为自己添加的log）如下图所示：<br><img src="http://7xilbx.com1.z0.glb.clouddn.com/masterkey3_4.2.2.png" alt="image"><br>Android4.4版本，该漏洞已补。测试结果如下图所示：<br><img src="http://7xilbx.com1.z0.glb.clouddn.com/masterkey3_4.4.png" alt="image">    </p>
+<p>参考saurik的一系列文章。<br>灰常感谢～<br><strong>注: 本文谢绝任何形式的转载，仅供学习交流</strong></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Vuln/">Vuln</a><a href="/tags/android/">android</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://to0rto.com/2015/05/14/Android-Master-Key-9950697/" data-title="Android Masterkey #9950697 原理与测试 | toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/04/16/Android-Masterkey-9695860/"  title="Android Masterkey #9695860 原理简述与测试">
+ <strong>下一篇：</strong><br/> 
+ <span>Android Masterkey #9695860 原理简述与测试
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/05/14/Android-Master-Key-9950697/" data-title="Android Masterkey #9950697 原理与测试" data-url="http://to0rto.com/2015/05/14/Android-Master-Key-9950697/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞简介"><span class="toc-number">1.</span> <span class="toc-text">漏洞简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理"><span class="toc-number">2.</span> <span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞测试"><span class="toc-number">3.</span> <span class="toc-text">漏洞测试</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reverse/" title="Reverse">Reverse<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ctf-writeup/" title="ctf writeup">ctf writeup<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">Tag Cloud</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/AOSP/" style="font-size: 10px;">AOSP</a><a href="/tags/Android/" style="font-size: 16.67px;">Android</a><a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a><a href="/tags/Vuln/" style="font-size: 16.67px;">Vuln</a><a href="/tags/adt/" style="font-size: 10px;">adt</a><a href="/tags/android/" style="font-size: 20px;">android</a><a href="/tags/apk/" style="font-size: 20px;">apk</a><a href="/tags/crack/" style="font-size: 10px;">crack</a><a href="/tags/ctf/" style="font-size: 13.33px;">ctf</a><a href="/tags/ctf-writeup/" style="font-size: 10px;">ctf writeup</a><a href="/tags/learn/" style="font-size: 20px;">learn</a><a href="/tags/python/" style="font-size: 20px;">python</a><a href="/tags/reverse/" style="font-size: 10px;">reverse</a><a href="/tags/writeup/" style="font-size: 13.33px;">writeup</a><a href="/tags/编译源码/" style="font-size: 10px;">编译源码</a><a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    </div>
+  </div>
+
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m toOrto. Welcome to my blog!  <br/>
+			Stay foolish, stay hunger.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/https://github.com/toOrto" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/to0rto.com" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/to0rto.com" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/to0rto.com" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="https://www.zhihu.com/people/to0rto.com" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/to0rto.com?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:toorto#foxmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://to0rto.com/about" target="_blank" title="toOrto">toOrto</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"toOrto"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fc8845d59c32a9a4490dcf517d9d0bffb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,523 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>crackme writeup | toOrto’s 南瓜屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="toOrto">
+    
+
+    
+    <meta name="keywords" content="逆向,Android,漏洞,CTF,python,安全">
+    
+    <meta name="description" content="很早就想着搭建个博客，才搭，就贴一些很早就开始写的东西吧，曾经做的一些crackme的writeup,贴出来丰富下自己的小天地~ 
+时间：2014年">
+<meta property="og:type" content="article">
+<meta property="og:title" content="crackme writeup">
+<meta property="og:url" content="http://to0rto.com/2015/04/08/crackme-writeup/index.html">
+<meta property="og:site_name" content="toOrto’s 南瓜屋">
+<meta property="og:description" content="很早就想着搭建个博客，才搭，就贴一些很早就开始写的东西吧，曾经做的一些crackme的writeup,贴出来丰富下自己的小天地~ 
+时间：2014年">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="crackme writeup">
+<meta name="twitter:description" content="很早就想着搭建个博客，才搭，就贴一些很早就开始写的东西吧，曾经做的一些crackme的writeup,贴出来丰富下自己的小天地~ 
+时间：2014年">
+<meta name="twitter:creator" content="@to0rto.com">
+<link rel="publisher" href="to0rto.com">
+
+    
+    <link rel="alternative" href="/atom.xml" title="toOrto’s 南瓜屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="toOrto’s 南瓜屋" title="toOrto’s 南瓜屋"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="toOrto’s 南瓜屋">toOrto’s 南瓜屋</a></h1>
+				<h2 class="blog-motto">Wake up Up UP :)</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/categories">categories</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:to0rto.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/08/crackme-writeup/" title="crackme writeup" itemprop="url">crackme writeup</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-08T03:34:00.000Z" itemprop="datePublished"> Published 2015-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#crackme3"><span class="toc-number">1.</span> <span class="toc-text">crackme3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#crackme4"><span class="toc-number">2.</span> <span class="toc-text">crackme4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#game"><span class="toc-number">3.</span> <span class="toc-text">game</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OVERFLOW"><span class="toc-number">4.</span> <span class="toc-text">OVERFLOW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exp"><span class="toc-number">5.</span> <span class="toc-text">exp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#game-1"><span class="toc-number">6.</span> <span class="toc-text">game</span></a></li></ol>
+		
+		</div>
+		
+		<p>很早就想着搭建个博客，才搭，就贴一些很早就开始写的东西吧，曾经做的一些crackme的writeup,贴出来丰富下自己的小天地~ </p>
+<p>时间：2014年<br><a id="more"></a></p>
+<h2 id="crackme3">crackme3</h2><p>题目：开启shift后门弹出KEY</p>
+<p>看Sub_401c40</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl sub_401C40(<span class="type">int</span> a1)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v1; // esi@<span class="number">1</span></span><br><span class="line">  signed <span class="type">int</span> v2; // edx@<span class="number">1</span></span><br><span class="line">  <span class="type">int</span> v3; // ecx@<span class="number">2</span></span><br><span class="line">  <span class="type">char</span> v4; // al@<span class="number">3</span></span><br><span class="line">  <span class="type">char</span> *v5; // edi@<span class="number">7</span></span><br><span class="line">  signed <span class="type">int</span> v6; // ecx@<span class="number">7</span></span><br><span class="line">  <span class="type">char</span> *v7; // esi@<span class="number">7</span></span><br><span class="line">  <span class="type">bool</span> v8; // zf@<span class="number">7</span></span><br><span class="line">  <span class="type">int</span> <span class="literal">result</span>; // eax@<span class="number">7</span></span><br><span class="line">  <span class="type">char</span> v10[<span class="number">8</span>]; // [sp+<span class="type">Ch</span>] [bp-<span class="number">8</span>h]@<span class="number">2</span></span><br><span class="line"></span><br><span class="line">  sub_401B90((<span class="keyword">const</span> <span class="type">char</span> *)a1);</span><br><span class="line">  v1 = <span class="number">0</span>;</span><br><span class="line">  v2 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">  &#123;</span><br><span class="line">    v10[v1] = <span class="number">0</span>;</span><br><span class="line">    v3 = v2;</span><br><span class="line">    <span class="keyword">if</span> ( __OFSUB__(v2, v2 + <span class="number">8</span>) ^ <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">do</span></span><br><span class="line">      &#123;</span><br><span class="line">        v4 = <span class="number">2</span> * v10[v1];</span><br><span class="line">        v8 = *(_BYTE *)(v3 + a1) == 'R';</span><br><span class="line">        v10[v1] = v4;</span><br><span class="line">        <span class="keyword">if</span> ( v8 )</span><br><span class="line">          v10[v1] = v4 + <span class="number">1</span>;</span><br><span class="line">        ++v3;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">while</span> ( v3 &lt; v2 + <span class="number">8</span> );</span><br><span class="line">    &#125;</span><br><span class="line">    v2 += <span class="number">8</span>;</span><br><span class="line">    ++v1;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( v2 &lt; <span class="number">48</span> );</span><br><span class="line">  v5 = off_403040;</span><br><span class="line">  v6 = <span class="number">3</span>;</span><br><span class="line">  v7 = v10;</span><br><span class="line">  <span class="literal">result</span> = <span class="number">0</span>;</span><br><span class="line">  v8 = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( !v6 )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    v8 = *(_WORD *)v7 == *(_WORD *)v5;</span><br><span class="line">    v7 += <span class="number">2</span>;</span><br><span class="line">    v5 += <span class="number">2</span>;</span><br><span class="line">    --v6;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( v8 );</span><br><span class="line">  <span class="keyword">if</span> ( v8 )</span><br><span class="line">    <span class="literal">result</span> = <span class="type">MessageBoxA</span>(<span class="number">0</span>, <span class="type">Caption</span>, <span class="type">Caption</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中sub_401b90为MD5加密函数，它的输入为L、R组成的0x30个数组。L代表点击鼠标左键，R代表点击鼠标右键。</p>
+<p>然后经过一系列运算，下面与字符串“查水表”比较，相等了就弹出对话框，框里哈希值即为密钥。于是逆回去得到由L、R组成的数组。</p>
+<p>然后输入，经过sub_301b90看到哈希值为：<br>    D27789EFCA409B6B6EE297D412334A65</p>
+<h2 id="crackme4">crackme4</h2><p>带壳分析</p>
+<p>sub_401000参数格式为HOWMP+6位数字密码，枚举6位数字,与内存里德哈希值相同即可。</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sub_401110(<span class="string">"seclover.com"</span>, (<span class="type">int</span>)lpBuffer, <span class="number">316</span>);</span><br><span class="line">wsprintfA(&amp;<span class="type">String</span>, <span class="string">"%s%s"</span>, <span class="string">"HOWMP"</span>, a3);</span><br><span class="line">v4 = lstrlenA(&amp;<span class="type">String</span>);</span><br><span class="line">sub_401000((<span class="type">BYTE</span> *)&amp;<span class="type">String</span>, v4, &amp;<span class="type">String</span>);</span><br><span class="line">v5 = lstrlenA(&amp;<span class="type">String</span>);</span><br><span class="line">sub_401000((<span class="type">BYTE</span> *)&amp;<span class="type">String</span>, v5, &amp;<span class="type">String</span>);</span><br><span class="line"><span class="literal">result</span> = lstrcmpA(&amp;<span class="type">String</span>, (<span class="type">LPCSTR</span>)lpBuffer + <span class="number">264</span>) != <span class="number">0</span> ? <span class="number">2</span> : <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>主要算哈希的函数为sub_401000，也根据此处爆破了，第一层密码为564987</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">int</span> __cdecl sub_401000(<span class="type">BYTE</span> *pbData, <span class="type">DWORD</span> dwDataLen, <span class="type">LPSTR</span> lpString1)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> <span class="literal">result</span>; // eax@<span class="number">1</span></span><br><span class="line">  <span class="type">DWORD</span> v4; // esi@<span class="number">6</span></span><br><span class="line">  <span class="type">bool</span> v5; // zf@<span class="number">6</span></span><br><span class="line">  <span class="type">HCRYPTHASH</span> phHash; // [sp+<span class="number">0</span>h] [bp-<span class="number">20</span>h]@<span class="number">2</span></span><br><span class="line">  <span class="type">HCRYPTPROV</span> phProv; // [sp+<span class="number">4</span>h] [bp-<span class="number">1</span>Ch]@<span class="number">1</span></span><br><span class="line">  <span class="type">DWORD</span> pdwDataLen; // [sp+<span class="number">8</span>h] [bp-<span class="number">18</span>h]@<span class="number">6</span></span><br><span class="line">  <span class="type">CHAR</span> <span class="type">String2</span>; // [sp+<span class="type">Ch</span>] [bp-<span class="number">14</span>h]@<span class="number">7</span></span><br><span class="line">  <span class="type">BYTE</span> v10[<span class="number">16</span>]; // [sp+<span class="number">10</span>h] [bp-<span class="number">10</span>h]@<span class="number">6</span></span><br><span class="line"></span><br><span class="line">  <span class="literal">result</span> = <span class="type">CryptAcquireContextA</span>(&amp;phProv, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>u, <span class="number">0xF0000000</span>);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="literal">result</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( <span class="type">CryptCreateHash</span>(phProv, <span class="number">0x8003</span>u, <span class="number">0</span>, <span class="number">0</span>, &amp;phHash) )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( <span class="type">CryptHashData</span>(phHash, pbData, dwDataLen, <span class="number">0</span>) )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="type">CryptGetHashParam</span>(phHash, <span class="number">2</span>u, v10, &amp;pdwDataLen, <span class="number">0</span>);</span><br><span class="line">        v4 = <span class="number">0</span>;</span><br><span class="line">        v5 = pdwDataLen == <span class="number">0</span>;</span><br><span class="line">        *lpString1 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> ( !v5 )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">do</span></span><br><span class="line">          &#123;</span><br><span class="line">            wsprintfA(&amp;<span class="type">String2</span>, <span class="string">"%02X"</span>, v10[v4]);</span><br><span class="line">            lstrcatA(lpString1, &amp;<span class="type">String2</span>);</span><br><span class="line">            ++v4;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">while</span> ( v4 &lt; pdwDataLen );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">CryptDestroyHash</span>(phHash);</span><br><span class="line">        <span class="type">CryptReleaseContext</span>(phProv, <span class="number">0</span>);</span><br><span class="line">        <span class="literal">result</span> = <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="type">CryptDestroyHash</span>(phHash);</span><br><span class="line">        <span class="type">CryptReleaseContext</span>(phProv, <span class="number">0</span>);</span><br><span class="line">        <span class="literal">result</span> = <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="type">CryptReleaseContext</span>(phProv, <span class="number">0</span>);</span><br><span class="line">      <span class="literal">result</span> = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二层，在ReadFile之后下断点，得到读出的文件内容，然后将前6个字节与GIF89a异或即得到输入密码。<br>然后输入密码，解出文件logo.gif.</p>
+<h2 id="game">game</h2><p>也木啥好说的这道题，主要是锻炼了我第一次直接粘贴IDA的代码到VS2010稍加改动遍历求KEY。下面附上题目和解题代码。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v4; <span class="comment">// [sp+11h] [bp-2Fh]@1</span></span><br><span class="line">  <span class="keyword">char</span> v5; <span class="comment">// [sp+15h] [bp-2Bh]@1</span></span><br><span class="line">  __int16 v6; <span class="comment">// [sp+16h] [bp-2Ah]@1</span></span><br><span class="line">  <span class="keyword">char</span> v7; <span class="comment">// [sp+18h] [bp-28h]@1</span></span><br><span class="line">  <span class="keyword">int</span> v8; <span class="comment">// [sp+19h] [bp-27h]@1</span></span><br><span class="line">  <span class="keyword">int</span> v9; <span class="comment">// [sp+1Dh] [bp-23h]@1</span></span><br><span class="line">  <span class="keyword">int</span> v10; <span class="comment">// [sp+21h] [bp-1Fh]@1</span></span><br><span class="line">  <span class="keyword">int</span> v11; <span class="comment">// [sp+25h] [bp-1Bh]@1</span></span><br><span class="line">  __int16 v12; <span class="comment">// [sp+29h] [bp-17h]@1</span></span><br><span class="line">  <span class="keyword">char</span> v13; <span class="comment">// [sp+2Bh] [bp-15h]@1</span></span><br><span class="line">  <span class="keyword">int</span> v14; <span class="comment">// [sp+2Ch] [bp-14h]@38</span></span><br><span class="line">  <span class="keyword">int</span> v15; <span class="comment">// [sp+30h] [bp-10h]@38</span></span><br><span class="line">  <span class="keyword">int</span> v16; <span class="comment">// [sp+34h] [bp-Ch]@38</span></span><br><span class="line">  <span class="keyword">int</span> j; <span class="comment">// [sp+38h] [bp-8h]@21</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [sp+3Ch] [bp-4h]@4</span></span><br><span class="line"></span><br><span class="line">  v9 = <span class="number">0</span>;</span><br><span class="line">  v10 = <span class="number">0</span>;</span><br><span class="line">  v11 = <span class="number">0</span>;</span><br><span class="line">  v12 = <span class="number">0</span>;</span><br><span class="line">  v13 = <span class="number">0</span>;</span><br><span class="line">  v8 = <span class="number">0</span>;</span><br><span class="line">  v6 = <span class="number">0</span>;</span><br><span class="line">  v7 = <span class="number">0</span>;</span><br><span class="line">  v4 = <span class="number">0</span>;</span><br><span class="line">  v5 = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Please input KEY:"</span>);</span><br><span class="line">  __isoc99_scanf(<span class="string">"%s"</span>, &amp;v9);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>((<span class="keyword">const</span> <span class="keyword">char</span> *)&amp;v9) != <span class="number">11</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"You input Key is wrong !"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">10</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( (*((_BYTE *)&amp;v9 + i) &gt; <span class="string">'9'</span> || *((_BYTE *)&amp;v9 + i) &lt;= <span class="string">'0'</span>) &amp;&amp; *((_BYTE *)&amp;v9 + i) != <span class="string">'-'</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">"You input Key is error !"</span>);</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( BYTE3(v9) != <span class="string">'-'</span> || BYTE2(v10) != <span class="string">'-'</span> || BYTE2(v9) != <span class="string">'3'</span> || BYTE1(v10) != <span class="string">'2'</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"You input Key is error !"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">10</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( BYTE3(v9) != <span class="string">'-'</span> || BYTE2(v10) != <span class="string">'-'</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">for</span> ( j = i + <span class="number">1</span>; j &lt;= <span class="number">10</span>; ++j )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( *((_BYTE *)&amp;v9 + i) == *((_BYTE *)&amp;v9 + j) )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="built_in">puts</span>(<span class="string">"You input key is error2!"</span>);</span><br><span class="line">          <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">2</span>; ++i )</span><br><span class="line">    *((_BYTE *)&amp;v8 + i) = *((_BYTE *)&amp;v9 + i);</span><br><span class="line">  i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( j = <span class="number">4</span>; j &lt;= <span class="number">5</span>; ++j )</span><br><span class="line">    *((_BYTE *)&amp;v6 + i++) = *((_BYTE *)&amp;v9 + j);</span><br><span class="line">  i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( j = <span class="number">7</span>; j &lt;= <span class="number">10</span>; ++j )</span><br><span class="line">    *((_BYTE *)&amp;v4 + i++) = *((_BYTE *)&amp;v9 + j);</span><br><span class="line">  v16 = atoi((<span class="keyword">const</span> <span class="keyword">char</span> *)&amp;v8);</span><br><span class="line">  v15 = atoi((<span class="keyword">const</span> <span class="keyword">char</span> *)&amp;v6);</span><br><span class="line">  v14 = atoi((<span class="keyword">const</span> <span class="keyword">char</span> *)&amp;v4);</span><br><span class="line">  <span class="keyword">if</span> ( v15 * v16 == v14 )</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Key is your input!"</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"SaoNian ,please try again ...."</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面是我的遍历代码，丑丑丑，求指导。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">include</span> &lt;stdio.h&gt;</span><br><span class="line">#<span class="keyword">include</span> &lt;string&gt;</span><br><span class="line"></span><br><span class="line">#define  <span class="keyword">BYTE</span> unsigned <span class="keyword">char</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> __cdecl main(<span class="keyword">int</span> argc, const <span class="keyword">char</span> **argv, const <span class="keyword">char</span> **envp)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> v4; <span class="comment">// [sp+11h] [bp-2Fh]@1</span></span><br><span class="line">	<span class="keyword">char</span> v5; <span class="comment">// [sp+15h] [bp-2Bh]@1</span></span><br><span class="line">	__int16 v6; <span class="comment">// [sp+16h] [bp-2Ah]@1</span></span><br><span class="line">	<span class="keyword">char</span> v7; <span class="comment">// [sp+18h] [bp-28h]@1</span></span><br><span class="line">    <span class="keyword">int</span> v8; <span class="comment">// [sp+19h] [bp-27h]@1</span></span><br><span class="line">    <span class="keyword">int</span> v9; <span class="comment">// [sp+1Dh] [bp-23h]@1</span></span><br><span class="line">	<span class="keyword">int</span> v10; <span class="comment">// [sp+21h] [bp-1Fh]@1</span></span><br><span class="line">	<span class="keyword">int</span> v11; <span class="comment">// [sp+25h] [bp-1Bh]@1</span></span><br><span class="line">	__int16 v12; <span class="comment">// [sp+29h] [bp-17h]@1</span></span><br><span class="line">	<span class="keyword">char</span> v13; <span class="comment">// [sp+2Bh] [bp-15h]@1</span></span><br><span class="line">	<span class="keyword">int</span> v14; <span class="comment">// [sp+2Ch] [bp-14h]@38</span></span><br><span class="line">	<span class="keyword">int</span> v15; <span class="comment">// [sp+30h] [bp-10h]@38</span></span><br><span class="line">	<span class="keyword">int</span> v16; <span class="comment">// [sp+34h] [bp-Ch]@38</span></span><br><span class="line">	<span class="keyword">int</span> j; <span class="comment">// [sp+38h] [bp-8h]@21</span></span><br><span class="line">	signed <span class="keyword">int</span> i; <span class="comment">// [sp+3Ch] [bp-4h]@4</span></span><br><span class="line"></span><br><span class="line">	v9 = <span class="number">0</span>;</span><br><span class="line">	v10 = <span class="number">0</span>;</span><br><span class="line">	v11 = <span class="number">0</span>;</span><br><span class="line">	v12 = <span class="number">0</span>;</span><br><span class="line">	v13 = <span class="number">0</span>;</span><br><span class="line">	v8 = <span class="number">0</span>;</span><br><span class="line">	v6 = <span class="number">0</span>;</span><br><span class="line">	v7 = <span class="number">0</span>;</span><br><span class="line">	v4 = <span class="number">0</span>;</span><br><span class="line">	v5 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	puts(<span class="string">"Please input KEY:"</span>);</span><br><span class="line">	<span class="comment">//scanf("%s", &amp;v9);</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//char *v9 = "143-52-7896";</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>; i &lt;= <span class="number">10</span>; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		*((<span class="keyword">BYTE</span> *)&amp;v9 + i) = <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">2</span>) = <span class="string">'3'</span>;</span><br><span class="line">	*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">5</span>) = <span class="string">'2'</span>;</span><br><span class="line">	*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">3</span>) = <span class="string">'-'</span>;</span><br><span class="line">	*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">6</span>) = <span class="string">'-'</span>;</span><br><span class="line">	*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">10</span>) = <span class="string">'6'</span>;</span><br><span class="line">	printf(<span class="string">"%s"</span>,(const <span class="keyword">char</span> *)(&amp;v9));</span><br><span class="line">	<span class="keyword">int</span> tmp0 = <span class="string">'1'</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp1 = <span class="string">'1'</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp4 = <span class="string">'1'</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp7 = <span class="string">'1'</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp8 = <span class="string">'1'</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp9 = <span class="string">'1'</span>;</span><br><span class="line">	<span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(tmp0 = <span class="string">'1'</span>; tmp0 &lt;= <span class="string">'9'</span>; tmp0++)</span><br><span class="line">		<span class="keyword">for</span>(tmp1 = <span class="string">'1'</span>; tmp1 &lt;= <span class="string">'9'</span>; tmp1++)</span><br><span class="line">			<span class="keyword">for</span>(tmp4 = <span class="string">'1'</span>; tmp4 &lt;= <span class="string">'9'</span>;tmp4++)</span><br><span class="line">				<span class="keyword">for</span>(tmp7 = <span class="string">'1'</span>; tmp7 &lt;= <span class="string">'9'</span>; tmp7++)</span><br><span class="line">					<span class="keyword">for</span>(tmp8 = <span class="string">'1'</span>;tmp8&lt;=<span class="string">'9'</span>; tmp8++)</span><br><span class="line">						<span class="keyword">for</span>(tmp9 = <span class="string">'1'</span>;tmp9&lt;=<span class="string">'9'</span>; tmp9++)</span><br><span class="line">						&#123;</span><br><span class="line">							*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">0</span>) =tmp0;</span><br><span class="line">							*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">1</span>) =tmp1;</span><br><span class="line">							*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">4</span>) =tmp4;</span><br><span class="line">							*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">9</span>) = tmp9;</span><br><span class="line">							*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">8</span>) = tmp8;</span><br><span class="line">							*((<span class="keyword">BYTE</span> *)&amp;v9 + <span class="number">7</span>) = tmp7;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">							<span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">2</span>; ++i )</span><br><span class="line">								*((<span class="keyword">BYTE</span> *)&amp;v8 + i) = *((<span class="keyword">BYTE</span> *)&amp;v9 + i);</span><br><span class="line">							i = <span class="number">0</span>;</span><br><span class="line">							<span class="keyword">for</span> ( j = <span class="number">4</span>; j &lt;= <span class="number">5</span>; ++j )</span><br><span class="line">								*((<span class="keyword">BYTE</span> *)&amp;v6 + i++) = *((<span class="keyword">BYTE</span> *)&amp;v9 + j);</span><br><span class="line">							i = <span class="number">0</span>;</span><br><span class="line">							<span class="keyword">for</span> ( j = <span class="number">7</span>; j &lt;= <span class="number">10</span>; ++j )</span><br><span class="line">								*((<span class="keyword">BYTE</span> *)&amp;v4 + i++) = *((<span class="keyword">BYTE</span> *)&amp;v9 + j);</span><br><span class="line">							v16 = atoi((const <span class="keyword">char</span> *)&amp;v8);</span><br><span class="line">							v15 = atoi((const <span class="keyword">char</span> *)&amp;v6);</span><br><span class="line">							v14 = atoi((const <span class="keyword">char</span> *)&amp;v4);</span><br><span class="line">							<span class="keyword">if</span> ( v15 * v16 == v14 )</span><br><span class="line">							&#123;</span><br><span class="line">								<span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">								<span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">10</span>; ++i )</span><br><span class="line"></span><br><span class="line">								&#123;</span><br><span class="line">									<span class="keyword">if</span> (i == <span class="number">3</span>)</span><br><span class="line">									&#123;</span><br><span class="line">										<span class="keyword">continue</span>;</span><br><span class="line">									&#125;</span><br><span class="line"></span><br><span class="line">									<span class="keyword">for</span> ( j = i + <span class="number">1</span>; j &lt;= <span class="number">10</span>; ++j )</span><br><span class="line"></span><br><span class="line">									&#123;</span><br><span class="line"></span><br><span class="line">										<span class="keyword">if</span> ( *((<span class="keyword">BYTE</span> *)&amp;v9 + i) == *((<span class="keyword">BYTE</span> *)&amp;v9 + j) )</span><br><span class="line"></span><br><span class="line">										&#123;</span><br><span class="line"></span><br><span class="line">											puts(<span class="string">"You input key is error2!"</span>);</span><br><span class="line">											flag = <span class="number">1</span>;</span><br><span class="line">											<span class="comment">//exit(0);</span></span><br><span class="line"></span><br><span class="line">										&#125;</span><br><span class="line"></span><br><span class="line">									&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">								&#125;</span><br><span class="line">								<span class="keyword">if</span> (flag == <span class="number">0</span>)</span><br><span class="line">								&#123;</span><br><span class="line">									printf(<span class="string">"%s"</span>,(const <span class="keyword">char</span> *)(&amp;v9));</span><br><span class="line">									puts(<span class="string">"Key is your input!"</span>);</span><br><span class="line">									<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">								&#125;</span><br><span class="line"></span><br><span class="line">							&#125;</span><br><span class="line">							<span class="keyword">else</span></span><br><span class="line">								puts(<span class="string">"please try again ...."</span>);</span><br><span class="line">						&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="OVERFLOW">OVERFLOW</h2><p>这是一道溢出的题，</p>
+<p>主目录</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">what you want <span class="built_in">to</span> <span class="built_in">do</span>?</span><br><span class="line"><span class="number">1</span><span class="comment">----&gt;input name</span></span><br><span class="line"><span class="number">2</span><span class="comment">----&gt;show name</span></span><br><span class="line"><span class="number">3</span><span class="comment">---&gt;modify information</span></span><br><span class="line"><span class="number">4</span><span class="comment">----&gt;del information</span></span><br></pre></td></tr></table></figure>
+<p>下面是主要处理的代码，可看到flag2[5] == 1便可自动回显flag.</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="atom">char</span> <span class="atom">name</span>[<span class="number">1024</span>]; // [<span class="atom">sp</span>+<span class="number">84</span><span class="name">Ch</span>] [<span class="atom">bp</span>-<span class="number">69</span><span class="name">Ch</span>]@<span class="number">1</span></span><br><span class="line"><span class="atom">char</span> <span class="atom">flag2</span>[<span class="number">400</span>]; // [<span class="atom">sp</span>+<span class="name">C4Ch</span>] [<span class="atom">bp</span>-<span class="number">29</span><span class="name">Ch</span>]@<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>如果1,input name读入超过1024就可覆盖flag2的内容。</p>
+<p>然而</p>
+<p> read_ptr(fd, name, 1024) 每次最多读入1024个字节，看起来没法多读。</p>
+<p> 然后发现，如果输入3，处理选项3 的代码：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">v2 = strlen(<span class="property">name</span>) + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> ( <span class="property">name</span>[<span class="number">0</span>] )</span><br><span class="line">&#123;</span><br><span class="line">          <span class="command">write</span>(fd, <span class="string">"Input your new name:\n"</span>, <span class="number">0x15</span>u);</span><br><span class="line">          start_len = v2 - <span class="number">1</span>;</span><br><span class="line"> <span class="keyword">if</span> ( read_ptr(fd, &amp;<span class="property">name</span>[v2 - <span class="number">1</span>], v2 - <span class="number">1</span>) &lt;= <span class="number">0</span> )</span><br><span class="line">            <span class="command">write</span>(fd, <span class="string">"name is empty or some wrong happened!\n"</span>, <span class="number">0x26</span>u);</span><br><span class="line">          *(_DWORD *)buf = *(_DWORD *)<span class="string">"New name saved\n"</span>;</span><br><span class="line">          *(_DWORD *)&amp;buf[<span class="number">4</span>] = *(_DWORD *)<span class="string">"name saved\n"</span>;</span><br><span class="line">          *(_DWORD *)&amp;buf[<span class="number">8</span>] = *(_DWORD *)<span class="string">" saved\n"</span>;</span><br><span class="line">          *(_DWORD *)&amp;buf[<span class="number">12</span>] = *(_DWORD *)<span class="string">"ed\n"</span>;</span><br><span class="line">          <span class="command">write</span>(fd, buf, <span class="number">0xF</span>u);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到直接读入到name偏移为v2（即为1中输入的名字的长度），因此可以分两次读入大于1024个字节，且后面用‘1’覆盖即可。<br>溢出触发如下：</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c 'print <span class="string">"1\n"</span>+<span class="string">"A"</span><span class="keyword">*</span>550 +<span class="string">"\n"</span>+<span class="string">"3\n"</span>+<span class="string">"1"</span><span class="keyword">*</span>550+<span class="string">"\n"</span>'<span class="string">|nc 107.170.228.194 12345</span></span><br></pre></td></tr></table></figure>
+<h2 id="exp">exp</h2><p>主要bug在strcpy</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl main(<span class="type">int</span> argc, <span class="keyword">const</span> <span class="type">char</span> **argv, <span class="keyword">const</span> <span class="type">char</span> **envp)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> <span class="literal">result</span>; // eax@<span class="number">2</span></span><br><span class="line">  <span class="type">int</span> v4; // [sp+<span class="number">0</span>h] [bp-<span class="number">41</span>Ch]@<span class="number">1</span></span><br><span class="line">  <span class="type">char</span> v5[<span class="number">4</span>]; // [sp+<span class="number">400</span>h] [bp-<span class="number">1</span>Ch]@<span class="number">1</span></span><br><span class="line">  <span class="type">int</span> i; // [sp+<span class="number">410</span>h] [bp-<span class="type">Ch</span>]@<span class="number">3</span></span><br><span class="line">  size_t v7; // [sp+<span class="number">414</span>h] [bp-<span class="number">8</span>h]@<span class="number">1</span></span><br><span class="line">  <span class="type">int</span> v8; // [sp+<span class="number">418</span>h] [bp-<span class="number">4</span>h]@<span class="number">1</span></span><br><span class="line"></span><br><span class="line">  v8 = <span class="number">0</span>;</span><br><span class="line">  v7 = <span class="number">0</span>;</span><br><span class="line">  strcpy(v5, <span class="string">"abcdefghctfy"</span>);</span><br><span class="line">  sub_401515((<span class="type">int</span>)asc_409040, v4);</span><br><span class="line">  sub_401515((<span class="type">int</span>)asc_40908C, v4);</span><br><span class="line">  sub_401515((<span class="type">int</span>)aThisProblemHas, v4);</span><br><span class="line">  sub_401515((<span class="type">int</span>)aForExampleTheF, v4);</span><br><span class="line">  sub_401515((<span class="type">int</span>)aSoTheFinalFlag, v4);</span><br><span class="line">  sub_401515((<span class="type">int</span>)aWhatIsKey_theK, v4);</span><br><span class="line">  sub_401515((<span class="type">int</span>)aByXidianCtf, v4);</span><br><span class="line">  sub_401515((<span class="type">int</span>)asc_409254, v4);</span><br><span class="line">  sub_401515((<span class="type">int</span>)asc_4092A0, v4);</span><br><span class="line">  sub_401515((<span class="type">int</span>)aPleaseInputThe, v4);</span><br><span class="line">  gets((<span class="type">char</span> *)&amp;v4);</span><br><span class="line">  v7 = strlen((<span class="keyword">const</span> <span class="type">char</span> *)&amp;v4);</span><br><span class="line">  <span class="keyword">if</span> ( (signed <span class="type">int</span>)v7 &lt; <span class="number">20</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; (signed <span class="type">int</span>)v7; ++i )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( (signed <span class="type">int</span>)*((_BYTE *)&amp;v4 + i) &lt; <span class="number">0x21</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        sub_401515((<span class="type">int</span>)aPleaseInputT_0, v4);</span><br><span class="line">        system(aPause);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> ( (signed <span class="type">int</span>)*((_BYTE *)&amp;v4 + i) &gt; 'z' )</span><br><span class="line">      &#123;</span><br><span class="line">        sub_401515((<span class="type">int</span>)aPleaseInputT_1, v4);</span><br><span class="line">        system(aPause_0);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">11</span>; ++i )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v5[i] != *((_BYTE *)&amp;v4 + i) )</span><br><span class="line">      &#123;</span><br><span class="line">        sub_401515((<span class="type">int</span>)aNoWeNeedTheCor, v4);</span><br><span class="line">        system(aPause_1);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    v8 = sub_401000((<span class="type">char</span> *)&amp;v4, v5);</span><br><span class="line">    <span class="keyword">if</span> ( v8 )</span><br><span class="line">    &#123;</span><br><span class="line">      sub_401515((<span class="type">int</span>)aNoWeNeedTheC_0, v4);</span><br><span class="line">      system(aPause_2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      sub_401515((<span class="type">int</span>)aYesItSOneOfThe, v4);</span><br><span class="line">      system(aPause_3);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="literal">result</span> = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="literal">result</span> = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先，看到abcdefghctfy为其中一部分KEY。<br>题目说有两个KEY，拼在一起为最终结果。<br>仔细看会发现，sub401000<br>先strcmp<br>将比较结果放到V4里.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">sub_401000</span><span class="params">(<span class="keyword">char</span> *a1, <span class="keyword">char</span> *a2)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// [sp+0h] [bp-10h]@1</span></span><br><span class="line">  <span class="keyword">int</span> v4; <span class="comment">// [sp+Ch] [bp-4h]@1</span></span><br><span class="line"></span><br><span class="line">  v4 = <span class="built_in">strcmp</span>(a1, a2);</span><br><span class="line">  <span class="built_in">strcpy</span>(&amp;v3, a1);</span><br><span class="line">  <span class="keyword">return</span> v4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看下变量在栈里的结构，其中VAR_1为V3，VAR_4为 V4。V3恰好为12个字节，abcdefghctfy也为12个字节。而<strong>strcpy</strong>复制这12个字节到V3时，会把最后的\0也复制过去，因此就会覆盖掉变量V4，从而修改返回值为0。为保证这4位为全0，只需该字符串比abcdefghctfy大，且位数相同。即为abcdefghctfz。拼在一起即为最后结果。</p>
+<p>C语言标准库函数strcpy，把从src地址开始且含有NULL结束符的字符串复制到以dest开始的地址空间。</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-<span class="ruby"><span class="number">00000010</span> var_1<span class="number">0</span>          db ?</span><br><span class="line"></span>-<span class="ruby"><span class="number">0000000</span>F                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">0000000</span>E                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">0000000</span>D                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">0000000</span>C                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">0000000</span>B                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">0000000</span>A                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">0000000</span>9                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">0000000</span>8                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">00000007</span>                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">00000006</span>                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">00000005</span>                 db ? ; undefined</span><br><span class="line"></span>-<span class="ruby"><span class="number">00000004</span> var_4           dd ?</span><br><span class="line"></span>+00000000  s              db 4 dup(?)</span><br><span class="line">+00000004  r              db 4 dup(?)</span><br><span class="line">+00000008 arg_0           dd ?                    ; offset</span><br><span class="line">+0000000C arg_4           dd ?                    ; offset</span><br><span class="line">+00000010</span><br><span class="line">+00000010 ; end of stack variables</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="game-1">game</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( <span class="built_in">strlen</span>((<span class="keyword">const</span> <span class="keyword">char</span> *)&amp;v9) != <span class="number">11</span> )</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"You input Key is wrong !"</span>);</span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>strlen所作的仅仅是一个计数器的工作，它从内存的某个位置（可以是字符串开头，中间某个位置，甚至是某个不确定的内存区域）开始扫描，直到碰到第一个字符串结束符’\0’为止，然后返回计数器值(长度不包含“\0”)</p>
+<p>纯输入11个字符</p>
+<p>和可以看见的字符串比较</p>
+<p>主要算法是异或’</p>
+<p>无视我糟糕的Python</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#__author = toOrto</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">orig_hex=[<span class="number">0</span>]*<span class="number">11</span></span><br><span class="line">orig = <span class="string">"AnswerDBing"</span></span><br><span class="line"><span class="keyword">for</span> <span class="tag">i</span> <span class="keyword">in</span> <span class="function"><span class="title">xrange</span><span class="params">(<span class="number">0</span>,<span class="number">11</span>)</span></span>:</span><br><span class="line">    orig_hex[i]= <span class="function"><span class="title">ord</span><span class="params">(orig[i])</span></span></span><br><span class="line">print orig_hex</span><br><span class="line"></span><br><span class="line"><span class="tag">b</span> = [<span class="number">0</span>x76,<span class="number">0</span>x0b,<span class="number">0</span>x33,<span class="number">0</span>x5,<span class="number">0</span>x50,<span class="number">0</span>x43,<span class="number">0</span>x71,<span class="number">0</span>x2,<span class="number">0</span>x50,<span class="number">0</span>xf,<span class="number">0</span>x1e]</span><br><span class="line">print <span class="tag">b</span></span><br><span class="line">print <span class="function"><span class="title">len</span><span class="params">(b)</span></span></span><br><span class="line"></span><br><span class="line">list_length = <span class="number">11</span></span><br><span class="line">c = [<span class="number">0</span>]*list_length</span><br><span class="line">print c</span><br><span class="line">d = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> <span class="tag">i</span> <span class="keyword">in</span> <span class="function"><span class="title">xrange</span><span class="params">(<span class="number">0</span>,<span class="number">11</span>)</span></span>:</span><br><span class="line">    c[i] = orig_hex[i]^<span class="tag">b</span>[i]</span><br><span class="line">    d += <span class="function"><span class="title">chr</span><span class="params">(c[i])</span></span></span><br><span class="line">print d</span><br></pre></td></tr></table></figure>
+<p>转载请注明出处，欢迎添加友链<a href="http://to0rto.com" target="_blank" rel="external">to0rto.com</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Reverse/">Reverse</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/crack/">crack</a><a href="/tags/ctf-writeup/">ctf writeup</a><a href="/tags/reverse/">reverse</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://to0rto.com/2015/04/08/crackme-writeup/" data-title="crackme writeup | toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/04/08/python-Challenge-2/" title="python Challenge 2">
+  <strong>上一篇：</strong><br/>
+  <span>
+  python Challenge 2</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/04/06/python-Challenge/"  title="python Challenge">
+ <strong>下一篇：</strong><br/> 
+ <span>python Challenge
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/04/08/crackme-writeup/" data-title="crackme writeup" data-url="http://to0rto.com/2015/04/08/crackme-writeup/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#crackme3"><span class="toc-number">1.</span> <span class="toc-text">crackme3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#crackme4"><span class="toc-number">2.</span> <span class="toc-text">crackme4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#game"><span class="toc-number">3.</span> <span class="toc-text">game</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OVERFLOW"><span class="toc-number">4.</span> <span class="toc-text">OVERFLOW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exp"><span class="toc-number">5.</span> <span class="toc-text">exp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#game-1"><span class="toc-number">6.</span> <span class="toc-text">game</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reverse/" title="Reverse">Reverse<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ctf-writeup/" title="ctf writeup">ctf writeup<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">Tag Cloud</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/AOSP/" style="font-size: 10px;">AOSP</a><a href="/tags/Android/" style="font-size: 16.67px;">Android</a><a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a><a href="/tags/Vuln/" style="font-size: 16.67px;">Vuln</a><a href="/tags/adt/" style="font-size: 10px;">adt</a><a href="/tags/android/" style="font-size: 20px;">android</a><a href="/tags/apk/" style="font-size: 20px;">apk</a><a href="/tags/crack/" style="font-size: 10px;">crack</a><a href="/tags/ctf/" style="font-size: 13.33px;">ctf</a><a href="/tags/ctf-writeup/" style="font-size: 10px;">ctf writeup</a><a href="/tags/learn/" style="font-size: 20px;">learn</a><a href="/tags/python/" style="font-size: 20px;">python</a><a href="/tags/reverse/" style="font-size: 10px;">reverse</a><a href="/tags/writeup/" style="font-size: 13.33px;">writeup</a><a href="/tags/编译源码/" style="font-size: 10px;">编译源码</a><a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    </div>
+  </div>
+
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m toOrto. Welcome to my blog!  <br/>
+			Stay foolish, stay hunger.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/https://github.com/toOrto" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/to0rto.com" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/to0rto.com" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/to0rto.com" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="https://www.zhihu.com/people/to0rto.com" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/to0rto.com?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:toorto#foxmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://to0rto.com/about" target="_blank" title="toOrto">toOrto</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"toOrto"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fc8845d59c32a9a4490dcf517d9d0bffb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
