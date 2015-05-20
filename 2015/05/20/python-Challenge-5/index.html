@@ -4,33 +4,45 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>modify the APK | toOrto’s 南瓜屋</title>
+    <title>python Challenge 5 | toOrto’s 南瓜屋</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="toOrto">
     
 
     
-    <meta name="keywords" content="逆向,Android,漏洞,CTF,python,安全">
+    <meta name="keywords" content="pickle,逆向,Android,漏洞,CTF,python,安全">
     
-    <meta name="description" content="修改APK文件遇到的一些问题问题1：adb install xxx.apk时，出现：
-Zip EOCD: expected &amp;gt;= 22 bytes, found 21
-解决方法：
-该问题是由于End of central directory record (EOCD)总长度不对造成的，笔者是由于少了一位0x00造成的。EOCD总长度本应该是22位，缺只有21位，则会报错。修改方法，检查缺失字">
+    <meta name="description" content="过了好长时间了，又来了。。
+基础学习主要是pickle的使用。说起来用pickle的原因还挺复杂的。但使用起来就只有那四个函数：
+Functions:
+dump(object, file)
+dumps(object) -&amp;gt; string
+load(file) -&amp;gt; object
+loads(string) -&amp;gt; object
+分别是object—&amp;gt;file 将object写">
 <meta property="og:type" content="article">
-<meta property="og:title" content="modify the APK">
-<meta property="og:url" content="http://to0rto.com/2015/04/14/modify-the-APK/index.html">
+<meta property="og:title" content="python Challenge 5">
+<meta property="og:url" content="http://to0rto.com/2015/05/20/python-Challenge-5/index.html">
 <meta property="og:site_name" content="toOrto’s 南瓜屋">
-<meta property="og:description" content="修改APK文件遇到的一些问题问题1：adb install xxx.apk时，出现：
-Zip EOCD: expected &amp;gt;= 22 bytes, found 21
-解决方法：
-该问题是由于End of central directory record (EOCD)总长度不对造成的，笔者是由于少了一位0x00造成的。EOCD总长度本应该是22位，缺只有21位，则会报错。修改方法，检查缺失字">
+<meta property="og:description" content="过了好长时间了，又来了。。
+基础学习主要是pickle的使用。说起来用pickle的原因还挺复杂的。但使用起来就只有那四个函数：
+Functions:
+dump(object, file)
+dumps(object) -&amp;gt; string
+load(file) -&amp;gt; object
+loads(string) -&amp;gt; object
+分别是object—&amp;gt;file 将object写">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="modify the APK">
-<meta name="twitter:description" content="修改APK文件遇到的一些问题问题1：adb install xxx.apk时，出现：
-Zip EOCD: expected &amp;gt;= 22 bytes, found 21
-解决方法：
-该问题是由于End of central directory record (EOCD)总长度不对造成的，笔者是由于少了一位0x00造成的。EOCD总长度本应该是22位，缺只有21位，则会报错。修改方法，检查缺失字">
+<meta name="twitter:title" content="python Challenge 5">
+<meta name="twitter:description" content="过了好长时间了，又来了。。
+基础学习主要是pickle的使用。说起来用pickle的原因还挺复杂的。但使用起来就只有那四个函数：
+Functions:
+dump(object, file)
+dumps(object) -&amp;gt; string
+load(file) -&amp;gt; object
+loads(string) -&amp;gt; object
+分别是object—&amp;gt;file 将object写">
 <meta name="twitter:creator" content="@to0rto.com">
 <link rel="publisher" href="to0rto.com">
 
@@ -93,14 +105,14 @@ Zip EOCD: expected &amp;gt;= 22 bytes, found 21
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/14/modify-the-APK/" title="modify the APK" itemprop="url">modify the APK</a>
+      <a href="/2015/05/20/python-Challenge-5/" title="python Challenge 5" itemprop="url">python Challenge 5</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-14T07:27:17.000Z" itemprop="datePublished"> Published 2015-04-14</time>
+    <time datetime="2015-05-20T01:48:36.000Z" itemprop="datePublished"> Published 2015-05-20</time>
     
   </p>
 </header>
@@ -109,33 +121,42 @@ Zip EOCD: expected &amp;gt;= 22 bytes, found 21
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改APK文件遇到的一些问题"><span class="toc-number">1.</span> <span class="toc-text">修改APK文件遇到的一些问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写体积小的helloworld"><span class="toc-number">2.</span> <span class="toc-text">编写体积小的helloworld</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础学习"><span class="toc-number">1.</span> <span class="toc-text">基础学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要思路"><span class="toc-number">2.</span> <span class="toc-text">主要思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现代码"><span class="toc-number">3.</span> <span class="toc-text">实现代码</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="修改APK文件遇到的一些问题">修改APK文件遇到的一些问题</h2><p>问题1：<br>adb install xxx.apk时，出现：</p>
-<p><code>Zip EOCD: expected &gt;= 22 bytes, found 21</code></p>
-<p>解决方法：</p>
-<p>该问题是由于End of central directory record (EOCD)总长度不对造成的，笔者是由于少了一位0x00造成的。EOCD总长度本应该是22位，缺只有21位，则会报错。修改方法，检查缺失字段，并补齐。<br><a id="more"></a><br>问题2：<br><code>Whoops: didn&#39;t find expected signature read_central_directory_entry failed</code><br><code>file &#39;xxx.apk&#39; is not a valid zip file rm failed for /data/local/tmp/xxx.apk,</code><br><code>No such file or directory</code></p>
-<p>解决办法：  </p>
-<p>该APK损坏了，笔者用打开压缩文件的软件也无法打开该APK。最后发现是Central directory entry出了问题。  </p>
-<p>问题3：  </p>
-<p><code>Android INSTALL_FAILED_UID_CHANGED</code>  </p>
-<p>解决办法：<br>删除<code>data/data/com.example.helloworld</code>即可。<br>问题4：<br><code>[INSTALL_FAILED_DEXOPT]</code><br>解决办法：<br>SDK版本不匹配的问题  </p>
-<h2 id="编写体积小的helloworld">编写体积小的helloworld</h2><ol>
-<li>首先Mini SDK &lt; 11, TargetSDK &gt; 11</li>
-<li>移除appcompat_v7库</li>
-<li>取消Android Private Libraries前面的勾</li>
-<li>上一步带来的编译错误   </li>
-</ol>
-<p>问题1：<br><code>ActionBarActivity cannot be resolved to a type。</code><br>解决方法：  </p>
-<p><code>MainActivity继承自ActionBarActivity，将其改为Activity并按提示添加</code><br><code>import android.app.Activity;</code>  </p>
-<p>问题2：<br><code>R cannot be resolved to a variable。</code><br>解决方法：  </p>
-<pre><code>修改以下文件  
+		<p>过了好长时间了，又来了。。</p>
+<h2 id="基础学习">基础学习</h2><p>主要是pickle的使用。说起来用pickle的原因还挺复杂的。<br>但使用起来就只有那四个函数：</p>
+<p>Functions:</p>
+<pre><code><span class="function"><span class="title">dump</span><span class="params">(object, file)</span></span>
+<span class="function"><span class="title">dumps</span><span class="params">(object)</span></span> -&gt; string
+<span class="function"><span class="title">load</span><span class="params">(file)</span></span> -&gt; <span class="tag">object</span>
+<span class="function"><span class="title">loads</span><span class="params">(string)</span></span> -&gt; object
+</code></pre><p>分别是<br>object—&gt;file 将object写入到文件  </p>
+<p>object—&gt;string 将object写入到字符串</p>
+<p>file—&gt;object 从文件中读出object</p>
+<p>string—&gt;object 从字符串中读出object</p>
+<h2 id="主要思路">主要思路</h2><p>显示源代码<br><code>&lt;peakhell src=&quot;banner.p&quot;/&gt;</code><br>1.下载banner.p文件<br>2.通过pickle的load()读出object<br>3.发现都是＃和“ ”<br>4.按次数打印＃和“ ”</p>
+<h2 id="实现代码">实现代码</h2><pre><code>import urllib2
+import cPickle as pickle
 
-* 将res<span class="regexp">/values/</span>style.xml，res<span class="regexp">/values-v11/</span>style.xml，res<span class="regexp">/values-v14/</span>style.xml文件中Theme.AppCompat替换成<span class="string">android:</span>Theme
-* 将res<span class="regexp">/menu/</span>main.xml文件中<span class="string">app:</span>showAsAction=<span class="string">"never"</span>去掉    
-</code></pre><p>参考链接：<br><a href="http://www.mazhuang.org/2014/12/31/simplify-apk/" target="_blank" rel="external">如何让HelloWorld.apk体积最小</a>  </p>
+print <span class="string">"downloading the file banner.p"</span>
+url = <span class="string">"http://www.pythonchallenge.com/pc/def/banner.p"</span>
+f = urllib2.<span class="function"><span class="title">urlopen</span><span class="params">(url)</span></span>
+data = f.<span class="function"><span class="title">read</span><span class="params">()</span></span>
+with <span class="function"><span class="title">open</span><span class="params">(<span class="string">"banner2.p"</span>,<span class="string">"wb"</span>)</span></span> as <span class="tag">code</span>:
+        <span class="tag">code</span>.<span class="function"><span class="title">write</span><span class="params">(data)</span></span>
+ff = <span class="function"><span class="title">file</span><span class="params">(<span class="string">"banner2.p"</span>,<span class="string">"rb"</span>)</span></span>
+rr = pickle.<span class="function"><span class="title">load</span><span class="params">(ff)</span></span>
+
+<span class="keyword">for</span> <span class="tag">i</span> <span class="keyword">in</span> <span class="function"><span class="title">xrange</span><span class="params">(<span class="number">0</span>,len(rr)</span></span>):
+        print <span class="string">"\n"</span>
+        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="function"><span class="title">xrange</span><span class="params">(<span class="number">0</span>,len(rr[i])</span></span>):
+                print rr[i][j][<span class="number">0</span>]*rr[i][j][<span class="number">1</span>],
+
+ff.<span class="function"><span class="title">close</span><span class="params">()</span></span>
+</code></pre><p>最后得到如下结果：  channel  </p>
+<p>欢迎大家批评指正~</p>
 <p>转载请注明出处，欢迎添加友链<a href="http://to0rto.com" target="_blank" rel="external">to0rto.com</a></p>
   
 	</div>
@@ -144,13 +165,13 @@ Zip EOCD: expected &amp;gt;= 22 bytes, found 21
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Android/">Android</a>
+  <a class="article-category-link" href="/categories/python/">python</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/android/">android</a><a href="/tags/learn/">learn</a>
+  <span></span> <a href="/tags/learn/">learn</a><a href="/tags/python/">python</a>
   </div>
 
 </div>
@@ -159,7 +180,7 @@ Zip EOCD: expected &amp;gt;= 22 bytes, found 21
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://to0rto.com/2015/04/14/modify-the-APK/" data-title="modify the APK | toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
+	  <div data-url="http://to0rto.com/2015/05/20/python-Challenge-5/" data-title="python Challenge 5 | toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -172,19 +193,11 @@ Zip EOCD: expected &amp;gt;= 22 bytes, found 21
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/04/15/Android-masterkey-8219321/" title="Android masterkey(8219321)原理分析与测试">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Android masterkey(8219321)原理分析与测试</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/04/10/python-Challenge-4/"  title="python Challenge 4">
+<a href="/2015/05/14/Android-Master-Key-9950697/"  title="Android Masterkey #9950697 原理与测试">
  <strong>下一篇：</strong><br/> 
- <span>python Challenge 4
+ <span>Android Masterkey #9950697 原理与测试
 </span>
 </a>
 </div>
@@ -193,7 +206,7 @@ Zip EOCD: expected &amp;gt;= 22 bytes, found 21
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/14/modify-the-APK/" data-title="modify the APK" data-url="http://to0rto.com/2015/04/14/modify-the-APK/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/20/python-Challenge-5/" data-title="python Challenge 5" data-url="http://to0rto.com/2015/05/20/python-Challenge-5/"></div>
 </section>
 
 
@@ -203,7 +216,7 @@ Zip EOCD: expected &amp;gt;= 22 bytes, found 21
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改APK文件遇到的一些问题"><span class="toc-number">1.</span> <span class="toc-text">修改APK文件遇到的一些问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写体积小的helloworld"><span class="toc-number">2.</span> <span class="toc-text">编写体积小的helloworld</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础学习"><span class="toc-number">1.</span> <span class="toc-text">基础学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要思路"><span class="toc-number">2.</span> <span class="toc-text">主要思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现代码"><span class="toc-number">3.</span> <span class="toc-text">实现代码</span></a></li></ol>
  
   </div>
 

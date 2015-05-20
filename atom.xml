@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Wake up Up UP :)]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://to0rto.com/"/>
-  <updated>2015-05-14T14:32:16.000Z</updated>
+  <updated>2015-05-20T02:14:27.000Z</updated>
   <id>http://to0rto.com/</id>
   
   <author>
@@ -13,6 +13,61 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[python Challenge 5]]></title>
+    <link href="http://to0rto.com/2015/05/20/python-Challenge-5/"/>
+    <id>http://to0rto.com/2015/05/20/python-Challenge-5/</id>
+    <published>2015-05-20T01:48:36.000Z</published>
+    <updated>2015-05-20T02:14:27.000Z</updated>
+    <content type="html"><![CDATA[<p>过了好长时间了，又来了。。</p>
+<h2 id="基础学习">基础学习</h2><p>主要是pickle的使用。说起来用pickle的原因还挺复杂的。<br>但使用起来就只有那四个函数：</p>
+<p>Functions:</p>
+<pre><code><span class="function"><span class="title">dump</span><span class="params">(object, file)</span></span>
+<span class="function"><span class="title">dumps</span><span class="params">(object)</span></span> -&gt; string
+<span class="function"><span class="title">load</span><span class="params">(file)</span></span> -&gt; <span class="tag">object</span>
+<span class="function"><span class="title">loads</span><span class="params">(string)</span></span> -&gt; object
+</code></pre><p>分别是<br>object—&gt;file 将object写入到文件  </p>
+<p>object—&gt;string 将object写入到字符串</p>
+<p>file—&gt;object 从文件中读出object</p>
+<p>string—&gt;object 从字符串中读出object</p>
+<h2 id="主要思路">主要思路</h2><p>显示源代码<br><code>&lt;peakhell src=&quot;banner.p&quot;/&gt;</code><br>1.下载banner.p文件<br>2.通过pickle的load()读出object<br>3.发现都是＃和“ ”<br>4.按次数打印＃和“ ”</p>
+<h2 id="实现代码">实现代码</h2><pre><code>import urllib2
+import cPickle as pickle
+
+print <span class="string">"downloading the file banner.p"</span>
+url = <span class="string">"http://www.pythonchallenge.com/pc/def/banner.p"</span>
+f = urllib2.<span class="function"><span class="title">urlopen</span><span class="params">(url)</span></span>
+data = f.<span class="function"><span class="title">read</span><span class="params">()</span></span>
+with <span class="function"><span class="title">open</span><span class="params">(<span class="string">"banner2.p"</span>,<span class="string">"wb"</span>)</span></span> as <span class="tag">code</span>:
+        <span class="tag">code</span>.<span class="function"><span class="title">write</span><span class="params">(data)</span></span>
+ff = <span class="function"><span class="title">file</span><span class="params">(<span class="string">"banner2.p"</span>,<span class="string">"rb"</span>)</span></span>
+rr = pickle.<span class="function"><span class="title">load</span><span class="params">(ff)</span></span>
+
+<span class="keyword">for</span> <span class="tag">i</span> <span class="keyword">in</span> <span class="function"><span class="title">xrange</span><span class="params">(<span class="number">0</span>,len(rr)</span></span>):
+        print <span class="string">"\n"</span>
+        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="function"><span class="title">xrange</span><span class="params">(<span class="number">0</span>,len(rr[i])</span></span>):
+                print rr[i][j][<span class="number">0</span>]*rr[i][j][<span class="number">1</span>],
+
+ff.<span class="function"><span class="title">close</span><span class="params">()</span></span>
+</code></pre><p>最后得到如下结果：  channel  </p>
+<p>欢迎大家批评指正~</p>
+<p>转载请注明出处，欢迎添加友链<a href="http://to0rto.com" target="_blank" rel="external">to0rto.com</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>过了好长时间了，又来了。。</p>
+<h2 id="基础学习">基础学习</h2><p>主要是pickle的使用。说起来用pickle的原因还挺复杂的。<br>但使用起来就只有那四个函数：</p>
+<p>Functions:</p>
+<pre><code><span cla]]>
+    </summary>
+    
+      <category term="learn" scheme="http://to0rto.com/tags/learn/"/>
+    
+      <category term="python" scheme="http://to0rto.com/tags/python/"/>
+    
+      <category term="python" scheme="http://to0rto.com/categories/python/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Android Masterkey #9950697 原理与测试]]></title>
