@@ -13,36 +13,18 @@
     
     <meta name="keywords" content="pickle,逆向,Android,漏洞,CTF,python,安全">
     
-    <meta name="description" content="过了好长时间了，又来了。。
-基础学习主要是pickle的使用。说起来用pickle的原因还挺复杂的。但使用起来就只有那四个函数：
-Functions:
-dump(object, file)
-dumps(object) -&amp;gt; string
-load(file) -&amp;gt; object
-loads(string) -&amp;gt; object
-分别是object—&amp;gt;file 将object写">
+    <meta name="description" content="过了好长时间了，I’m back.
+基础学习主要是pickle的使用。说起来用pickle的原因还挺复杂的。但使用起来就只有那四个函数：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python Challenge 5">
 <meta property="og:url" content="http://to0rto.com/2015/05/20/python-Challenge-5/index.html">
 <meta property="og:site_name" content="toOrto’s 南瓜屋">
-<meta property="og:description" content="过了好长时间了，又来了。。
-基础学习主要是pickle的使用。说起来用pickle的原因还挺复杂的。但使用起来就只有那四个函数：
-Functions:
-dump(object, file)
-dumps(object) -&amp;gt; string
-load(file) -&amp;gt; object
-loads(string) -&amp;gt; object
-分别是object—&amp;gt;file 将object写">
+<meta property="og:description" content="过了好长时间了，I’m back.
+基础学习主要是pickle的使用。说起来用pickle的原因还挺复杂的。但使用起来就只有那四个函数：">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python Challenge 5">
-<meta name="twitter:description" content="过了好长时间了，又来了。。
-基础学习主要是pickle的使用。说起来用pickle的原因还挺复杂的。但使用起来就只有那四个函数：
-Functions:
-dump(object, file)
-dumps(object) -&amp;gt; string
-load(file) -&amp;gt; object
-loads(string) -&amp;gt; object
-分别是object—&amp;gt;file 将object写">
+<meta name="twitter:description" content="过了好长时间了，I’m back.
+基础学习主要是pickle的使用。说起来用pickle的原因还挺复杂的。但使用起来就只有那四个函数：">
 <meta name="twitter:creator" content="@to0rto.com">
 <link rel="publisher" href="to0rto.com">
 
@@ -125,9 +107,8 @@ loads(string) -&amp;gt; object
 		
 		</div>
 		
-		<p>过了好长时间了，又来了。。</p>
-<h2 id="基础学习">基础学习</h2><p>主要是pickle的使用。说起来用pickle的原因还挺复杂的。<br>但使用起来就只有那四个函数：</p>
-<p>Functions:</p>
+		<p>过了好长时间了，I’m back.</p>
+<h2 id="基础学习">基础学习</h2><p>主要是pickle的使用。说起来用pickle的原因还挺复杂的。<br>但使用起来就只有那四个函数：<br><a id="more"></a><br>Functions:</p>
 <pre><code><span class="function"><span class="title">dump</span><span class="params">(object, file)</span></span>
 <span class="function"><span class="title">dumps</span><span class="params">(object)</span></span> -&gt; string
 <span class="function"><span class="title">load</span><span class="params">(file)</span></span> -&gt; <span class="tag">object</span>
@@ -136,7 +117,15 @@ loads(string) -&amp;gt; object
 <p>object—&gt;string 将object写入到字符串</p>
 <p>file—&gt;object 从文件中读出object</p>
 <p>string—&gt;object 从字符串中读出object</p>
-<h2 id="主要思路">主要思路</h2><p>显示源代码<br><code>&lt;peakhell src=&quot;banner.p&quot;/&gt;</code><br>1.下载banner.p文件<br>2.通过pickle的load()读出object<br>3.发现都是＃和“ ”<br>4.按次数打印＃和“ ”</p>
+<h2 id="主要思路">主要思路</h2><p>peakhell百度了一下，据说挺起来像pickle。好吧，是挺像，于是继续…  </p>
+<p>显示源代码，看到如下：  </p>
+<p><code>&lt;peakhell src=&quot;banner.p&quot;/&gt;</code><br>于是：</p>
+<ol>
+<li>下载banner.p文件</li>
+<li>通过pickle的load()读出object</li>
+<li>发现都是＃和“ ”</li>
+<li>按次数打印＃和“ ”</li>
+</ol>
 <h2 id="实现代码">实现代码</h2><pre><code>import urllib2
 import cPickle as pickle
 
