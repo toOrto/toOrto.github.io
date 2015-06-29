@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Wake up Up UP :)]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://to0rto.com/"/>
-  <updated>2015-05-20T03:42:06.000Z</updated>
+  <updated>2015-06-29T04:47:38.000Z</updated>
   <id>http://to0rto.com/</id>
   
   <author>
@@ -13,6 +13,83 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://to0rto.com/2015/06/29/Android%204.2%E5%88%B7%E6%9C%BA%E5%85%A8%E8%BF%87%E7%A8%8B%EF%BC%88%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0%EF%BC%89/"/>
+    <id>http://to0rto.com/2015/06/29/Android 4.2刷机全过程（个人笔记）/</id>
+    <published>2015-06-29T04:47:38.000Z</published>
+    <updated>2015-06-29T04:47:38.000Z</updated>
+    <content type="html"><![CDATA[<p>title: “Nexus 5 刷Android 4.4.4 笔记 “<br>date: 2015-06-29 09:48:36<br>categories: Android<br>keywords: 刷机</p>
+<h2 id="tags:_[android,刷机,开发者选项]">tags: [android,刷机,开发者选项]</h2><h2 id="android_4-4-4_刷机笔记">android 4.4.4 刷机笔记</h2><p>机型：Nexus 5</p>
+<p><code>http://www.romzj.com/list/google_nexus5.htm</code></p>
+<h3 id="刷机精灵软件刷机法">刷机精灵软件刷机法</h3><ol>
+<li><p>下载刷机包  </p>
+<p> <code>http://www.romzj.com/rom/13733.htm</code>  </p>
+</li>
+<li><p>安装刷机精灵<br> <code>http://www.shuame.com/</code>  </p>
+</li>
+<li><p>选择一键刷机，然后选择本地刷机包，静等就可以了。</p>
+<p> <code>http://www.zhihu.com/question/22233606
+  http://android.tgbus.com/Android/yizhi/201311/480731.shtml</code></p>
+</li>
+</ol>
+<h3 id="刷回google_factory镜像_原厂镜像">刷回google factory镜像 原厂镜像</h3><ol>
+<li>下载相应镜像<br><code>https://developers.google.com/android/nexus/images</code></li>
+<li>下载android SDK</li>
+<li>将下载好的压缩包，比如hammerhead-ktu84p-factory-35ea0277.tgz，解压到platform－tools文件夹下，<br><img src="http://7xilbx.com1.z0.glb.clouddn.com/shuaji0.png" alt="image"></li>
+<li>同时按住手机的音量减小和关机键，进入fastboot模式。</li>
+<li>通过usb将手机连接到电脑上。</li>
+<li>linux或mac系统 运行./flash-all.sh, window系统运行flash-all.bat文件即可。</li>
+</ol>
+<p>等待刷机完毕即可。刷机完毕会出现类似如下提示：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="atom">writing</span> <span class="string">'cache'</span>...</span><br><span class="line"><span class="name">OKAY</span> [  <span class="number">1.066</span><span class="atom">s</span>]</span><br><span class="line"><span class="atom">rebooting</span>...</span><br><span class="line"></span><br><span class="line"><span class="atom">finished</span>. <span class="atom">total</span> <span class="atom">time</span>: <span class="number">143.060</span><span class="atom">s</span></span><br></pre></td></tr></table></figure>
+<h2 id="刷机完成后">刷机完成后</h2><p>打开手机，nexus 5 android 4.4.4系统</p>
+<p>进入设置后，发现没有Developer options(开发者选项)。</p>
+<h3 id="如何打开Developer_options(开发者选项)？">如何打开Developer options(开发者选项)？</h3><p>Settings(设置)—&gt; About phone（关于手机）—&gt;多次按Build number（版本号）<br>看到有反应后，即打开了开发者选项</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>title: “Nexus 5 刷Android 4.4.4 笔记 “<br>date: 2015-06-29 09:48:36<br>categories: Android<br>keywords: 刷机</p>
+<h2 id="tags:_[android,刷机,开发者]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[简单程序逆向总结]]></title>
+    <link href="http://to0rto.com/2015/05/26/%E7%AE%80%E5%8D%95%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91%E6%80%BB%E7%BB%93/"/>
+    <id>http://to0rto.com/2015/05/26/简单程序逆向总结/</id>
+    <published>2015-05-26T13:40:28.000Z</published>
+    <updated>2015-05-26T13:40:28.000Z</updated>
+    <content type="html"><![CDATA[<p>来总结一下简单的程序逆向  </p>
+<p>就是那种，输入密码，正确了弹出 通关框，错误了弹出 错误框 的题目。</p>
+<ol>
+<li>通过OD或者IDA来搜索，程序提示的字符串，比如“错误”，找到以后，向上分析，就可以找到，是与什么相比较跳转到通关框里，从而得到key。</li>
+<li><p>因为OD无法通过字符串查找的方法来定位资源中定义的字符串条目，所以有时搜索不到 提示的字符串。</p>
+<p> 此时，在OD中通过对LoadStringA下API参考断点来定位密码校验函数。或者在当前模块中查询到 messageboxA并下断点。再继续。</p>
+</li>
+<li><p>动态调用的API无法通过OD的输入表API参考断点或者IDA的交叉引用来进行定位。  </p>
+<p> 此时，可以直接bp 函数名</p>
+</li>
+<li>当输入错误弹出错误对话框时，不要关闭该对话框。<br>   点击“暂停”按钮，程序就会自动断下。<br> 然后点击“调试”菜单下的“执行到用户代码”，<br> 此时再点错误框的“确定”按钮，程序在OD中会再次断下。断在另一次调用messagebox的地方。以此可以找到正确的key。</li>
+<li>若该程序用peid查看后，有算法，给出地址。回到ida里找到相应函数，一直按x，找到处理输入那段，然后再在od里下断点即可。  </li>
+</ol>
+<p>随便写写，纪录一下，仅供学习之用。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>来总结一下简单的程序逆向  </p>
+<p>就是那种，输入密码，正确了弹出 通关框，错误了弹出 错误框 的题目。</p>
+<ol>
+<li>通过OD或者IDA来搜索，程序提示的字符串，比如“错误”，找到以后，向上分析，就可以找到，是与什么相比较跳转到通关框里，从而得到key]]>
+    </summary>
+    
+      <category term="learn" scheme="http://to0rto.com/tags/learn/"/>
+    
+      <category term="reverse" scheme="http://to0rto.com/tags/reverse/"/>
+    
+      <category term="Reverse" scheme="http://to0rto.com/categories/Reverse/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[python Challenge 5]]></title>

@@ -4,24 +4,39 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>sctf2014 APK题 | toOrto’s 南瓜屋</title>
+    <title>简单程序逆向总结 | toOrto’s 南瓜屋</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="toOrto">
     
 
     
-    <meta name="keywords" content="逆向,Android,漏洞,CTF,python,安全">
+    <meta name="keywords" content="reverse,逆向,Android,漏洞,CTF,python,安全">
     
-    <meta name="description" content="那个时候，只会用android简单地反编译工具，写的writeup 也比较挫~ 贴下来，纪念一下我的FirstBlood。当时这个题刚出来时为200分，后来由于长时间没人出，变成了400分。后来主办方出题人问了我一下解题思路。结果和他想的不一样~ 他本想让大家动态分析，结果。。">
+    <meta name="description" content="来总结一下简单的程序逆向  
+就是那种，输入密码，正确了弹出 通关框，错误了弹出 错误框 的题目。
+
+通过OD或者IDA来搜索，程序提示的字符串，比如“错误”，找到以后，向上分析，就可以找到，是与什么相比较跳转到通关框里，从而得到key。
+因为OD无法通过字符串查找的方法来定位资源中定义的字符串条目，所以有时搜索不到 提示的字符串。
+ 此时，在OD中通过对LoadStringA下API参考断点来定">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sctf2014 APK题">
-<meta property="og:url" content="http://to0rto.com/2014/12/08/sctf2014/index.html">
+<meta property="og:title" content="简单程序逆向总结">
+<meta property="og:url" content="http://to0rto.com/2015/05/26/简单程序逆向总结/index.html">
 <meta property="og:site_name" content="toOrto’s 南瓜屋">
-<meta property="og:description" content="那个时候，只会用android简单地反编译工具，写的writeup 也比较挫~ 贴下来，纪念一下我的FirstBlood。当时这个题刚出来时为200分，后来由于长时间没人出，变成了400分。后来主办方出题人问了我一下解题思路。结果和他想的不一样~ 他本想让大家动态分析，结果。。">
+<meta property="og:description" content="来总结一下简单的程序逆向  
+就是那种，输入密码，正确了弹出 通关框，错误了弹出 错误框 的题目。
+
+通过OD或者IDA来搜索，程序提示的字符串，比如“错误”，找到以后，向上分析，就可以找到，是与什么相比较跳转到通关框里，从而得到key。
+因为OD无法通过字符串查找的方法来定位资源中定义的字符串条目，所以有时搜索不到 提示的字符串。
+ 此时，在OD中通过对LoadStringA下API参考断点来定">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sctf2014 APK题">
-<meta name="twitter:description" content="那个时候，只会用android简单地反编译工具，写的writeup 也比较挫~ 贴下来，纪念一下我的FirstBlood。当时这个题刚出来时为200分，后来由于长时间没人出，变成了400分。后来主办方出题人问了我一下解题思路。结果和他想的不一样~ 他本想让大家动态分析，结果。。">
+<meta name="twitter:title" content="简单程序逆向总结">
+<meta name="twitter:description" content="来总结一下简单的程序逆向  
+就是那种，输入密码，正确了弹出 通关框，错误了弹出 错误框 的题目。
+
+通过OD或者IDA来搜索，程序提示的字符串，比如“错误”，找到以后，向上分析，就可以找到，是与什么相比较跳转到通关框里，从而得到key。
+因为OD无法通过字符串查找的方法来定位资源中定义的字符串条目，所以有时搜索不到 提示的字符串。
+ 此时，在OD中通过对LoadStringA下API参考断点来定">
 <meta name="twitter:creator" content="@to0rto.com">
 <link rel="publisher" href="to0rto.com">
 
@@ -84,14 +99,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/08/sctf2014/" title="sctf2014 APK题" itemprop="url">sctf2014 APK题</a>
+      <a href="/2015/05/26/简单程序逆向总结/" title="简单程序逆向总结" itemprop="url">简单程序逆向总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
 		
   <p class="article-time">
-    <time datetime="2014-12-08T13:06:19.000Z" itemprop="datePublished"> Published 2014-12-08</time>
+    <time datetime="2015-05-26T13:40:28.000Z" itemprop="datePublished"> Published 2015-05-26</time>
     
   </p>
 </header>
@@ -104,23 +119,20 @@
 		
 		</div>
 		
-		<p>那个时候，只会用android简单地反编译工具，<br>写的writeup 也比较挫~ 贴下来，纪念一下我的FirstBlood。当时这个题刚出来时为200分，后来由于长时间没人出，变成了400分。<br>后来主办方出题人问了我一下解题思路。结果和他想的不一样~ 他本想让大家动态分析，结果。。<br><a id="more"></a><br>不会动态分析的我，默默地静态分析：</p>
-<p>下载下来是个APK文件。</p>
-<p>解压，Dex2jar反编译，得到源码，看MainActivity.java</p>
-<p>其中加载了so文件，调用了func函数</p>
-<p>当func函数返回为真，则可toast出Flag。</p>
-<p>于是取出so文件，分析func函数，</p>
-<p>先通过IDA查看字符串，然后解密各个字符串，基本上都是-1，-2，-3简易加密的。<br>输入的字串，</p>
-<p>第一次变换 是 与自己所在的标号异或。</p>
-<p>第二次变换 可能是syc（对应长度为6）和xctf（对应长度为9）两种之一，做了下移位。</p>
-<p>第三次变换是 对大写字母，小写字母，和除此之外其他情况做了处理，得到的字符串的前11位可以通过解方程得到，GoodCracK3R。</p>
-<p>11位之后的数，经过处理后又和a8e5588f7e3f758比较，相等才返回1，</p>
-<p>由于总共15位，那肯定是8位输入，才能对应15或16位，于是把这8位暴力跑了一下，测试了下结果。</p>
-<p>和前面的GoodCracK3R结合起来，为”GoodCracK3R;{0jN|B6”，</p>
-<p>然后倒推第二次变换和第一次变换，</p>
-<p>就可推出KEY</p>
-<p>FLAG：xctf{hgJ7Q=|8a\wV;A~}}Wc}</p>
-<p>转载请注明出处，欢迎添加友链<a href="http://to0rto.com" target="_blank" rel="external">to0rto.com</a></p>
+		<p>来总结一下简单的程序逆向  </p>
+<p>就是那种，输入密码，正确了弹出 通关框，错误了弹出 错误框 的题目。</p>
+<ol>
+<li>通过OD或者IDA来搜索，程序提示的字符串，比如“错误”，找到以后，向上分析，就可以找到，是与什么相比较跳转到通关框里，从而得到key。</li>
+<li><p>因为OD无法通过字符串查找的方法来定位资源中定义的字符串条目，所以有时搜索不到 提示的字符串。</p>
+<p> 此时，在OD中通过对LoadStringA下API参考断点来定位密码校验函数。或者在当前模块中查询到 messageboxA并下断点。再继续。</p>
+</li>
+<li><p>动态调用的API无法通过OD的输入表API参考断点或者IDA的交叉引用来进行定位。  </p>
+<p> 此时，可以直接bp 函数名</p>
+</li>
+<li>当输入错误弹出错误对话框时，不要关闭该对话框。<br>   点击“暂停”按钮，程序就会自动断下。<br> 然后点击“调试”菜单下的“执行到用户代码”，<br> 此时再点错误框的“确定”按钮，程序在OD中会再次断下。断在另一次调用messagebox的地方。以此可以找到正确的key。</li>
+<li>若该程序用peid查看后，有算法，给出地址。回到ida里找到相应函数，一直按x，找到处理输入那段，然后再在od里下断点即可。  </li>
+</ol>
+<p>随便写写，纪录一下，仅供学习之用。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -128,13 +140,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/ctf-writeup/">ctf writeup</a>
+  <a class="article-category-link" href="/categories/Reverse/">Reverse</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/apk/">apk</a><a href="/tags/ctf/">ctf</a><a href="/tags/writeup/">writeup</a>
+  <span></span> <a href="/tags/learn/">learn</a><a href="/tags/reverse/">reverse</a>
   </div>
 
 </div>
@@ -143,7 +155,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://to0rto.com/2014/12/08/sctf2014/" data-title="sctf2014 APK题 | toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
+	  <div data-url="http://to0rto.com/2015/05/26/简单程序逆向总结/" data-title="简单程序逆向总结 | toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -157,19 +169,27 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/04/06/Android编译源码环境配置及错误解决/" title="Android编译源码环境配置及错误解决">
+ <a href="/2015/06/29/Android 4.2刷机全过程（个人笔记）/" title="">
   <strong>上一篇：</strong><br/>
   <span>
-  Android编译源码环境配置及错误解决</span>
+  (no title)</span>
 </a>
 </div>
 
+
+<div class="next">
+<a href="/2015/05/20/python-Challenge-5/"  title="python Challenge 5">
+ <strong>下一篇：</strong><br/> 
+ <span>python Challenge 5
+</span>
+</a>
+</div>
 
 </nav>
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2014/12/08/sctf2014/" data-title="sctf2014 APK题" data-url="http://to0rto.com/2014/12/08/sctf2014/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/26/简单程序逆向总结/" data-title="简单程序逆向总结" data-url="http://to0rto.com/2015/05/26/简单程序逆向总结/"></div>
 </section>
 
 

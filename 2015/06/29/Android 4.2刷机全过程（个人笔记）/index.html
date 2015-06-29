@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>sctf2014 APK题 | toOrto’s 南瓜屋</title>
+    <title>toOrto’s 南瓜屋</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="toOrto">
@@ -13,15 +13,28 @@
     
     <meta name="keywords" content="逆向,Android,漏洞,CTF,python,安全">
     
-    <meta name="description" content="那个时候，只会用android简单地反编译工具，写的writeup 也比较挫~ 贴下来，纪念一下我的FirstBlood。当时这个题刚出来时为200分，后来由于长时间没人出，变成了400分。后来主办方出题人问了我一下解题思路。结果和他想的不一样~ 他本想让大家动态分析，结果。。">
+    <meta name="description" content="title: “Nexus 5 刷Android 4.4.4 笔记 “date: 2015-06-29 09:48:36categories: Androidkeywords: 刷机
+tags: [android,刷机,开发者选项]android 4.4.4 刷机笔记机型：Nexus 5
+http://www.romzj.com/list/google_nexus5.htm
+刷机精灵软件刷机法
+下">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sctf2014 APK题">
-<meta property="og:url" content="http://to0rto.com/2014/12/08/sctf2014/index.html">
+<meta property="og:title" content="toOrto’s 南瓜屋">
+<meta property="og:url" content="http://to0rto.com/2015/06/29/Android 4.2刷机全过程（个人笔记）/index.html">
 <meta property="og:site_name" content="toOrto’s 南瓜屋">
-<meta property="og:description" content="那个时候，只会用android简单地反编译工具，写的writeup 也比较挫~ 贴下来，纪念一下我的FirstBlood。当时这个题刚出来时为200分，后来由于长时间没人出，变成了400分。后来主办方出题人问了我一下解题思路。结果和他想的不一样~ 他本想让大家动态分析，结果。。">
+<meta property="og:description" content="title: “Nexus 5 刷Android 4.4.4 笔记 “date: 2015-06-29 09:48:36categories: Androidkeywords: 刷机
+tags: [android,刷机,开发者选项]android 4.4.4 刷机笔记机型：Nexus 5
+http://www.romzj.com/list/google_nexus5.htm
+刷机精灵软件刷机法
+下">
+<meta property="og:image" content="http://7xilbx.com1.z0.glb.clouddn.com/shuaji0.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sctf2014 APK题">
-<meta name="twitter:description" content="那个时候，只会用android简单地反编译工具，写的writeup 也比较挫~ 贴下来，纪念一下我的FirstBlood。当时这个题刚出来时为200分，后来由于长时间没人出，变成了400分。后来主办方出题人问了我一下解题思路。结果和他想的不一样~ 他本想让大家动态分析，结果。。">
+<meta name="twitter:title" content="toOrto’s 南瓜屋">
+<meta name="twitter:description" content="title: “Nexus 5 刷Android 4.4.4 笔记 “date: 2015-06-29 09:48:36categories: Androidkeywords: 刷机
+tags: [android,刷机,开发者选项]android 4.4.4 刷机笔记机型：Nexus 5
+http://www.romzj.com/list/google_nexus5.htm
+刷机精灵软件刷机法
+下">
 <meta name="twitter:creator" content="@to0rto.com">
 <link rel="publisher" href="to0rto.com">
 
@@ -84,14 +97,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/08/sctf2014/" title="sctf2014 APK题" itemprop="url">sctf2014 APK题</a>
+      <a href="/2015/06/29/Android 4.2刷机全过程（个人笔记）/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
 		
   <p class="article-time">
-    <time datetime="2014-12-08T13:06:19.000Z" itemprop="datePublished"> Published 2014-12-08</time>
+    <time datetime="2015-06-29T04:47:38.000Z" itemprop="datePublished"> Published 2015-06-29</time>
     
   </p>
 </header>
@@ -100,42 +113,42 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags:_[android,刷机,开发者选项]"><span class="toc-number">1.</span> <span class="toc-text">tags: [android,刷机,开发者选项]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android_4-4-4_刷机笔记"><span class="toc-number">2.</span> <span class="toc-text">android 4.4.4 刷机笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#刷机精灵软件刷机法"><span class="toc-number">2.1.</span> <span class="toc-text">刷机精灵软件刷机法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#刷回google_factory镜像_原厂镜像"><span class="toc-number">2.2.</span> <span class="toc-text">刷回google factory镜像 原厂镜像</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷机完成后"><span class="toc-number">3.</span> <span class="toc-text">刷机完成后</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何打开Developer_options(开发者选项)？"><span class="toc-number">3.1.</span> <span class="toc-text">如何打开Developer options(开发者选项)？</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>那个时候，只会用android简单地反编译工具，<br>写的writeup 也比较挫~ 贴下来，纪念一下我的FirstBlood。当时这个题刚出来时为200分，后来由于长时间没人出，变成了400分。<br>后来主办方出题人问了我一下解题思路。结果和他想的不一样~ 他本想让大家动态分析，结果。。<br><a id="more"></a><br>不会动态分析的我，默默地静态分析：</p>
-<p>下载下来是个APK文件。</p>
-<p>解压，Dex2jar反编译，得到源码，看MainActivity.java</p>
-<p>其中加载了so文件，调用了func函数</p>
-<p>当func函数返回为真，则可toast出Flag。</p>
-<p>于是取出so文件，分析func函数，</p>
-<p>先通过IDA查看字符串，然后解密各个字符串，基本上都是-1，-2，-3简易加密的。<br>输入的字串，</p>
-<p>第一次变换 是 与自己所在的标号异或。</p>
-<p>第二次变换 可能是syc（对应长度为6）和xctf（对应长度为9）两种之一，做了下移位。</p>
-<p>第三次变换是 对大写字母，小写字母，和除此之外其他情况做了处理，得到的字符串的前11位可以通过解方程得到，GoodCracK3R。</p>
-<p>11位之后的数，经过处理后又和a8e5588f7e3f758比较，相等才返回1，</p>
-<p>由于总共15位，那肯定是8位输入，才能对应15或16位，于是把这8位暴力跑了一下，测试了下结果。</p>
-<p>和前面的GoodCracK3R结合起来，为”GoodCracK3R;{0jN|B6”，</p>
-<p>然后倒推第二次变换和第一次变换，</p>
-<p>就可推出KEY</p>
-<p>FLAG：xctf{hgJ7Q=|8a\wV;A~}}Wc}</p>
-<p>转载请注明出处，欢迎添加友链<a href="http://to0rto.com" target="_blank" rel="external">to0rto.com</a></p>
+		<p>title: “Nexus 5 刷Android 4.4.4 笔记 “<br>date: 2015-06-29 09:48:36<br>categories: Android<br>keywords: 刷机</p>
+<h2 id="tags:_[android,刷机,开发者选项]">tags: [android,刷机,开发者选项]</h2><h2 id="android_4-4-4_刷机笔记">android 4.4.4 刷机笔记</h2><p>机型：Nexus 5</p>
+<p><code>http://www.romzj.com/list/google_nexus5.htm</code></p>
+<h3 id="刷机精灵软件刷机法">刷机精灵软件刷机法</h3><ol>
+<li><p>下载刷机包  </p>
+<p> <code>http://www.romzj.com/rom/13733.htm</code>  </p>
+</li>
+<li><p>安装刷机精灵<br> <code>http://www.shuame.com/</code>  </p>
+</li>
+<li><p>选择一键刷机，然后选择本地刷机包，静等就可以了。</p>
+<p> <code>http://www.zhihu.com/question/22233606
+  http://android.tgbus.com/Android/yizhi/201311/480731.shtml</code></p>
+</li>
+</ol>
+<h3 id="刷回google_factory镜像_原厂镜像">刷回google factory镜像 原厂镜像</h3><ol>
+<li>下载相应镜像<br><code>https://developers.google.com/android/nexus/images</code></li>
+<li>下载android SDK</li>
+<li>将下载好的压缩包，比如hammerhead-ktu84p-factory-35ea0277.tgz，解压到platform－tools文件夹下，<br><img src="http://7xilbx.com1.z0.glb.clouddn.com/shuaji0.png" alt="image"></li>
+<li>同时按住手机的音量减小和关机键，进入fastboot模式。</li>
+<li>通过usb将手机连接到电脑上。</li>
+<li>linux或mac系统 运行./flash-all.sh, window系统运行flash-all.bat文件即可。</li>
+</ol>
+<p>等待刷机完毕即可。刷机完毕会出现类似如下提示：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="atom">writing</span> <span class="string">'cache'</span>...</span><br><span class="line"><span class="name">OKAY</span> [  <span class="number">1.066</span><span class="atom">s</span>]</span><br><span class="line"><span class="atom">rebooting</span>...</span><br><span class="line"></span><br><span class="line"><span class="atom">finished</span>. <span class="atom">total</span> <span class="atom">time</span>: <span class="number">143.060</span><span class="atom">s</span></span><br></pre></td></tr></table></figure>
+<h2 id="刷机完成后">刷机完成后</h2><p>打开手机，nexus 5 android 4.4.4系统</p>
+<p>进入设置后，发现没有Developer options(开发者选项)。</p>
+<h3 id="如何打开Developer_options(开发者选项)？">如何打开Developer options(开发者选项)？</h3><p>Settings(设置)—&gt; About phone（关于手机）—&gt;多次按Build number（版本号）<br>看到有反应后，即打开了开发者选项</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ctf-writeup/">ctf writeup</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/apk/">apk</a><a href="/tags/ctf/">ctf</a><a href="/tags/writeup/">writeup</a>
-  </div>
 
 </div>
 
@@ -143,7 +156,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://to0rto.com/2014/12/08/sctf2014/" data-title="sctf2014 APK题 | toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
+	  <div data-url="http://to0rto.com/2015/06/29/Android 4.2刷机全过程（个人笔记）/" data-title="toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -156,20 +169,20 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/04/06/Android编译源码环境配置及错误解决/" title="Android编译源码环境配置及错误解决">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Android编译源码环境配置及错误解决</span>
+
+<div class="next">
+<a href="/2015/05/26/简单程序逆向总结/"  title="简单程序逆向总结">
+ <strong>下一篇：</strong><br/> 
+ <span>简单程序逆向总结
+</span>
 </a>
 </div>
-
 
 </nav>
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2014/12/08/sctf2014/" data-title="sctf2014 APK题" data-url="http://to0rto.com/2014/12/08/sctf2014/"></div>
+	<div class="ds-thread" data-thread-key="2015/06/29/Android 4.2刷机全过程（个人笔记）/" data-title="" data-url="http://to0rto.com/2015/06/29/Android 4.2刷机全过程（个人笔记）/"></div>
 </section>
 
 
@@ -179,7 +192,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags:_[android,刷机,开发者选项]"><span class="toc-number">1.</span> <span class="toc-text">tags: [android,刷机,开发者选项]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android_4-4-4_刷机笔记"><span class="toc-number">2.</span> <span class="toc-text">android 4.4.4 刷机笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#刷机精灵软件刷机法"><span class="toc-number">2.1.</span> <span class="toc-text">刷机精灵软件刷机法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#刷回google_factory镜像_原厂镜像"><span class="toc-number">2.2.</span> <span class="toc-text">刷回google factory镜像 原厂镜像</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷机完成后"><span class="toc-number">3.</span> <span class="toc-text">刷机完成后</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何打开Developer_options(开发者选项)？"><span class="toc-number">3.1.</span> <span class="toc-text">如何打开Developer options(开发者选项)？</span></a></li></ol></li></ol>
  
   </div>
 
