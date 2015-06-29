@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Wake up Up UP :)]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://to0rto.com/"/>
-  <updated>2015-06-29T04:47:38.000Z</updated>
+  <updated>2015-06-29T04:50:16.000Z</updated>
   <id>http://to0rto.com/</id>
   
   <author>
@@ -15,13 +15,12 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://to0rto.com/2015/06/29/Android%204.2%E5%88%B7%E6%9C%BA%E5%85%A8%E8%BF%87%E7%A8%8B%EF%BC%88%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0%EF%BC%89/"/>
-    <id>http://to0rto.com/2015/06/29/Android 4.2刷机全过程（个人笔记）/</id>
-    <published>2015-06-29T04:47:38.000Z</published>
-    <updated>2015-06-29T04:47:38.000Z</updated>
-    <content type="html"><![CDATA[<p>title: “Nexus 5 刷Android 4.4.4 笔记 “<br>date: 2015-06-29 09:48:36<br>categories: Android<br>keywords: 刷机</p>
-<h2 id="tags:_[android,刷机,开发者选项]">tags: [android,刷机,开发者选项]</h2><h2 id="android_4-4-4_刷机笔记">android 4.4.4 刷机笔记</h2><p>机型：Nexus 5</p>
+    <title><![CDATA[Nexus 5 刷Android 4.4.4 笔记]]></title>
+    <link href="http://to0rto.com/2015/06/29/Nexus-5-%E5%88%B7Android-4-4-4-%E7%AC%94%E8%AE%B0/"/>
+    <id>http://to0rto.com/2015/06/29/Nexus-5-刷Android-4-4-4-笔记/</id>
+    <published>2015-06-29T04:49:16.000Z</published>
+    <updated>2015-06-29T04:50:16.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="android_4-4-4_刷机笔记">android 4.4.4 刷机笔记</h2><p>机型：Nexus 5</p>
 <p><code>http://www.romzj.com/list/google_nexus5.htm</code></p>
 <h3 id="刷机精灵软件刷机法">刷机精灵软件刷机法</h3><ol>
 <li><p>下载刷机包  </p>
@@ -49,9 +48,18 @@
 <h3 id="如何打开Developer_options(开发者选项)？">如何打开Developer options(开发者选项)？</h3><p>Settings(设置)—&gt; About phone（关于手机）—&gt;多次按Build number（版本号）<br>看到有反应后，即打开了开发者选项</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>title: “Nexus 5 刷Android 4.4.4 笔记 “<br>date: 2015-06-29 09:48:36<br>categories: Android<br>keywords: 刷机</p>
-<h2 id="tags:_[android,刷机,开发者]]>
+    <![CDATA[<h2 id="android_4-4-4_刷机笔记">android 4.4.4 刷机笔记</h2><p>机型：Nexus 5</p>
+<p><code>http://www.romzj.com/list/google_nexus5.htm</code></p>
+<h3 id=]]>
     </summary>
+    
+      <category term="android" scheme="http://to0rto.com/tags/android/"/>
+    
+      <category term="刷机" scheme="http://to0rto.com/tags/%E5%88%B7%E6%9C%BA/"/>
+    
+      <category term="开发者选项" scheme="http://to0rto.com/tags/%E5%BC%80%E5%8F%91%E8%80%85%E9%80%89%E9%A1%B9/"/>
+    
+      <category term="Android" scheme="http://to0rto.com/categories/Android/"/>
     
   </entry>
   
