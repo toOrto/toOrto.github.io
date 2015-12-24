@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Wake up Up UP :)]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://to0rto.com/"/>
-  <updated>2015-12-24T06:16:00.000Z</updated>
+  <updated>2015-12-24T06:18:26.000Z</updated>
   <id>http://to0rto.com/</id>
   
   <author>
@@ -19,11 +19,79 @@
     <link href="http://to0rto.com/2015/12/24/MFFA-Fuzz-learn/"/>
     <id>http://to0rto.com/2015/12/24/MFFA-Fuzz-learn/</id>
     <published>2015-12-24T06:16:00.000Z</published>
-    <updated>2015-12-24T06:16:00.000Z</updated>
-    <content type="html"></content>
+    <updated>2015-12-24T06:18:26.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="MFFA">MFFA</h1><p>构造一些可能崩溃但结构正常的媒体文件，然后用合适的软件组件来解码或者是播放这些文件，监控系统，看其是否crash。</p>
+<p>样本输入 + 样本执行 + 异常监视</p>
+<h2 id="测试流程">测试流程</h2><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">=<span class="ruby"><span class="status">=&gt;</span> test.py</span><br><span class="line"></span></span><br><span class="line">=<span class="ruby"><span class="status">=&gt;</span> triage.py ==&gt; get_uniquecrash.py</span></span><br></pre></td></tr></table></figure>
+<p><strong>第一步：</strong>test.py用来样本执行，并记录log。使用方法如下：<a id="more"></a></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Ex</span>: <span class="string">python test.py stagefright audio noplay 0</span></span><br><span class="line"></span><br><span class="line"><span class="fsharp"></span><br><span class="line">ret2me@ubuntu:~/android_fuzz_tool/MFFA-master/test$ python test.py -h</span><br><span class="line">Usage:</span><br><span class="line"></span><br><span class="line">test.py &lt;<span class="class"><span class="keyword">type</span>&gt; &lt;audio/video&gt; &lt;play/noplay&gt; &lt;seed_number&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">type</span>              - <span class="title">type</span> <span class="title">of</span> <span class="title">target</span> </span>(stagefright/sf2/stream/codec)</span><br><span class="line">audio             - seed files are <span class="keyword">of</span> audio <span class="class"><span class="keyword">type</span></span></span><br><span class="line">video             - seed files are <span class="keyword">of</span> video <span class="class"><span class="keyword">type</span></span></span><br><span class="line">play/noplay       - enable testing <span class="keyword">of</span> playback capabilities</span><br><span class="line">seed_number       - number <span class="keyword">of</span> the seed file <span class="keyword">to</span> start from</span></span><br></pre></td></tr></table></figure>
+<p><strong>第二步：</strong>triage.py用来处理前一步生成的log，判断样本是否能重现，过滤重复的crash，使用那个方法如下：</p>
+<p>注：在执行<strong>第二步</strong>之前，要将上一步生成的log文件（如：batch_stagefright_99EA8E70）复制到和triage.py同一目录下。并在该目录创建文件夹issues，然后便可开始第二步。</p>
+<p><code>Example: python triage.py SIGABRT audio</code></p>
+<p>执行完上述两步，则可得到相应地POC和崩溃文件。</p>
+<h2 id="系统和设备配置">系统和设备配置</h2><p>由于解码部分是通过Stagefright command line接口实现，而普通模拟器并未开启命令行模式，于是可以通过以下几种方式来实现该目的：</p>
+<ul>
+<li><p>重新编译android源代码，在/frameworks/av/cmds/stagefright/目录下修改Android.mk文件，将其中optional换成eng模式。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#<span class="string">LOCAL_MODULE_TAGS :</span>= optional</span><br><span class="line"><span class="string">LOCAL_MODULE_TAGS :</span>= eng</span><br><span class="line"><span class="string">LOCAL_MODULE:</span>= stagefright</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新编译android源码，修改<code>device/&lt;vendor&gt;/&lt;target_product&gt;</code>目录下的device.mk文件，即将stagefright模块添加进去。</p>
+<figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">PRODUCT_PACKAGES +</span>=<span class="string"> \</span><br><span class="line">    stagefright</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不编译整个源码，仅编译stagefright模块部分</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mma <span class="list">(<span class="keyword">or</span> alternatively)</span></span><br><span class="line">mma -B</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="实现功能（特点）">实现功能（特点）</h2><ol>
+<li>分布式发送恶意样本，然后自动log所有的结果。</li>
+<li>解码部分是通过Stagefright command line接口实现的。</li>
+<li>crash不重复（检查崩溃PC address是否已存在),并保存tombstone和样本文件</li>
+<li>样本重现（之前就对应log和设备，用于样本重现）</li>
+</ol>
+<h2 id="各部分实现">各部分实现</h2><ul>
+<li><strong>样本生成:</strong> 通过AFL生成样本文件，保存到batch目录（略）</li>
+<li><p><strong>样本执行:</strong> 包括发送到设备和执行两部分。</p>
+<ul>
+<li><p><strong>分布式发送恶意样本</strong>：通过subprocess()子进程实现分布式，实现多个设备同时跑样本。</p>
+<p>对应==&gt;test.py</p>
+</li>
+<li><p><strong>音频、视频解码</strong>：通过Stagefright command line接口实现。分为四种方式，stagefright、stream、sf2和codec四种。这四种方式都是通通过adb push把样本发送到设备上。然后调用各自可执行文件对样本解码。并做log。</p>
+<p>对应==&gt;sp_codec.py、sp_sf2.py、sp_stagefright.py、sp_stream.py</p>
+</li>
+</ul>
+</li>
+<li><p><strong>异常监视:</strong> 监视是否崩溃。</p>
+<ul>
+<li><p>crash监控： 通过adb log记录下所有信息，遍历log找到signal_type（SIGSEGV等），即是可能崩溃的文件</p>
+<p>对应==&gt;get_uniquecrash.py</p>
+</li>
+<li><p>对应样本文件：遍历log每一行搜索FileName来定位到是哪个样本文件造成的crash。</p>
+<p>对应==&gt;get_uniquecrash.py</p>
+</li>
+<li><p>保证crash不重复(需要样本重现）：再将crash文件执行一次，通过定位backtrace字符串来检查tombstones里PC address是否已存在，来保证crash不重复</p>
+<p>对应==&gt;get_uniquecrash.py</p>
+</li>
+<li><p>保证样本重现：即保证在对应的设备上执行对应的样本。通过将log文件和设备对应来实现，从log文件定位出样本文件，放到该log文件对应的设备里重新运行</p>
+<p>对应==&gt;triage.py</p>
+<h2 id="关于那四种解码方式">关于那四种解码方式</h2><h3 id="0x00_stagefright">0x00 stagefright</h3><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@generic:/ # stagefright -h</span><br><span class="line">usage: stagefright [options] [input_filename]</span><br><span class="line">       -<span class="ruby">h(elp)</span><br><span class="line"></span>       -<span class="ruby">a(udio)</span><br><span class="line"></span>       -<span class="ruby">n repetitions</span><br><span class="line"></span>       -<span class="ruby">l(ist) components</span><br><span class="line"></span>       -<span class="ruby">m max-number-of-frames-to-decode <span class="keyword">in</span> each pass</span><br><span class="line"></span>       -<span class="ruby">b bug to reproduce</span><br><span class="line"></span>       -<span class="ruby">p(rofiles) dump decoder profiles supported</span><br><span class="line"></span>       -<span class="ruby">t(humbnail) extract video thumbnail <span class="keyword">or</span> album art</span><br><span class="line"></span>       -<span class="ruby">s(oftware) prefer software codec</span><br><span class="line"></span>       -<span class="ruby">r(hardware) force to use hardware codec</span><br><span class="line"></span>       -<span class="ruby">o playback audio</span><br><span class="line"></span>       -<span class="ruby">w(rite) filename (write to .mp4 file)</span><br><span class="line"></span>       -<span class="ruby">k seek test</span><br><span class="line"></span>       -<span class="ruby">x display a histogram of decoding times/fps (video only)</span><br><span class="line"></span>       -<span class="ruby"><span class="constant">S</span> allocate buffers from a surface</span><br><span class="line"></span>       -<span class="ruby"><span class="constant">T</span> allocate buffers from a surface texture</span><br><span class="line"></span>       -<span class="ruby">d(ump) output_filename (raw stream data to a file)</span><br><span class="line"></span>       -<span class="ruby"><span class="constant">D</span>(ump) output_filename (decoded <span class="constant">PCM</span> data to a file)</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>测试方法<br><code>python test.py stagefright audio noplay 0</code></p>
+<h3 id="0x01_sf2">0x01 sf2</h3><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@generic:/ # sf2 -h</span><br><span class="line">usage: sf2</span><br><span class="line">       -<span class="ruby">h(elp)</span><br><span class="line"></span>       -<span class="ruby">a(udio)</span><br><span class="line"></span>       -<span class="ruby"><span class="constant">S</span>(urface) <span class="constant">Allocate</span> output buffers on a surface.</span><br><span class="line"></span>       -<span class="ruby"><span class="constant">R</span>(ender)  <span class="constant">Render</span> surface-allocated buffers.</span></span><br></pre></td></tr></table></figure>
+<h3 id="0x02_codec">0x02 codec</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@generic:/ # codec -h</span><br><span class="line">usage: codec [-a] <span class="operator"><span class="keyword">use</span> audio</span><br><span class="line">		[-v] <span class="keyword">use</span> video</span><br><span class="line">		[-p] playback</span><br><span class="line">		[-S] <span class="keyword">allocate</span> buffers <span class="keyword">from</span> a surface</span><br><span class="line">		[-R] render <span class="keyword">output</span> <span class="keyword">to</span> surface (enables -S)</span><br><span class="line">		[-T] <span class="keyword">use</span> render timestamps (enables -R)</span></span><br></pre></td></tr></table></figure>
+<p>测试方法<code>python test.py codec video noplay 0</code></p>
+<h3 id="0x03_stream">0x03 stream</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@generic</span><span class="symbol">:/</span> <span class="comment"># stream</span></span><br><span class="line"><span class="constant">Usage:</span> stream filename</span><br></pre></td></tr></table></figure>
+]]></content>
     <summary type="html">
+    <![CDATA[<h1 id="MFFA">MFFA</h1><p>构造一些可能崩溃但结构正常的媒体文件，然后用合适的软件组件来解码或者是播放这些文件，监控系统，看其是否crash。</p>
+<p>样本输入 + 样本执行 + 异常监视</p>
+<h2 id="测试流程">测试流程</h2><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">=<span class="ruby"><span class="status">=&gt;</span> test.py</span><br><span class="line"></span></span><br><span class="line">=<span class="ruby"><span class="status">=&gt;</span> triage.py ==&gt; get_uniquecrash.py</span></span><br></pre></td></tr></table></figure>
+<p><strong>第一步：</strong>test.py用来样本执行，并记录log。使用方法如下：]]>
     
     </summary>
+    
+      <category term="Android" scheme="http://to0rto.com/categories/Android/"/>
     
   </entry>
   
@@ -32,13 +100,14 @@
     <link href="http://to0rto.com/2015/12/24/%E4%BB%8E%E5%AE%89%E8%A3%85ubuntu%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%BC%80%E5%A7%8B%E9%85%8D%E7%BD%AEandroid%E7%BC%96%E8%AF%91%E5%85%A8%E8%BF%87%E7%A8%8B/"/>
     <id>http://to0rto.com/2015/12/24/从安装ubuntu虚拟机开始配置android编译全过程/</id>
     <published>2015-12-24T06:10:57.000Z</published>
-    <updated>2015-12-24T06:12:51.000Z</updated>
+    <updated>2015-12-24T06:18:33.000Z</updated>
     <content type="html"><![CDATA[<h1 id="ubuntu_14-04_android-6-0-1_r3">ubuntu_14.04_android-6.0.1_r3</h1><p>下载ubuntu:<a href="http://releases.ubuntu.com/15.10/ubuntu-15.10-desktop-amd64.iso" target="_blank" rel="external">64位、Ubuntu_14.04</a></p>
 <h2 id="设置root密码">设置root密码</h2><p>安装虚拟机，之后设置root密码。</p>
 <ul>
 <li>sudo passwd</li>
 <li>输入密码</li>
-<li>确认密码</li>
+<li>确认密码<a id="more"></a>
+</li>
 </ul>
 <h2 id="安装VMtools:">安装VMtools:</h2><ul>
 <li>mkdir VMwaretools</li>
@@ -82,7 +151,13 @@
 <p>然后再执行<br>emulator<br>可以启动模拟器</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="ubuntu_14-04_android-6-0-1_r3">ubuntu_14.04_android-6.0.1_r3</h1><p>下载ubuntu:<a href="http://releases.ubuntu.com/15.10/ubuntu-15.10-]]>
+    <![CDATA[<h1 id="ubuntu_14-04_android-6-0-1_r3">ubuntu_14.04_android-6.0.1_r3</h1><p>下载ubuntu:<a href="http://releases.ubuntu.com/15.10/ubuntu-15.10-desktop-amd64.iso">64位、Ubuntu_14.04</a></p>
+<h2 id="设置root密码">设置root密码</h2><p>安装虚拟机，之后设置root密码。</p>
+<ul>
+<li>sudo passwd</li>
+<li>输入密码</li>
+<li>确认密码]]>
+    
     </summary>
     
       <category term="Android" scheme="http://to0rto.com/categories/Android/"/>

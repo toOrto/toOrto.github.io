@@ -99,15 +99,25 @@
 </header>
     <div class="article-content">
         
-        
+        <h1 id="MFFA">MFFA</h1><p>构造一些可能崩溃但结构正常的媒体文件，然后用合适的软件组件来解码或者是播放这些文件，监控系统，看其是否crash。</p>
+<p>样本输入 + 样本执行 + 异常监视</p>
+<h2 id="测试流程">测试流程</h2><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">=<span class="ruby"><span class="status">=&gt;</span> test.py</span><br><span class="line"></span></span><br><span class="line">=<span class="ruby"><span class="status">=&gt;</span> triage.py ==&gt; get_uniquecrash.py</span></span><br></pre></td></tr></table></figure>
+<p><strong>第一步：</strong>test.py用来样本执行，并记录log。使用方法如下：
         
         
         <p class="article-more-link">
+          
+            <a href="/2015/12/24/MFFA-Fuzz-learn/#more">Read More</a>
           
        </p>
     </div>
     <footer class="article-footer clearfix">
 <div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android/">Android</a>
+</div>
 
 
 </div>
@@ -151,57 +161,17 @@
 </header>
     <div class="article-content">
         
-        <h1 id="ubuntu_14-04_android-6-0-1_r3">ubuntu_14.04_android-6.0.1_r3</h1><p>下载ubuntu:<a href="http://releases.ubuntu.com/15.10/ubuntu-15.10-desktop-amd64.iso" target="_blank" rel="external">64位、Ubuntu_14.04</a></p>
+        <h1 id="ubuntu_14-04_android-6-0-1_r3">ubuntu_14.04_android-6.0.1_r3</h1><p>下载ubuntu:<a href="http://releases.ubuntu.com/15.10/ubuntu-15.10-desktop-amd64.iso">64位、Ubuntu_14.04</a></p>
 <h2 id="设置root密码">设置root密码</h2><p>安装虚拟机，之后设置root密码。</p>
 <ul>
 <li>sudo passwd</li>
 <li>输入密码</li>
-<li>确认密码</li>
-</ul>
-<h2 id="安装VMtools:">安装VMtools:</h2><ul>
-<li>mkdir VMwaretools</li>
-<li>cp -R /media/**/VMware Tools/ ./</li>
-<li>cd VMware Tools</li>
-<li>sudo tar zxvf VMwareTools-10.0.0-2977863.tar.gz</li>
-<li>cd vmware-tools-distrib/</li>
-<li>sudo ./vmware-install.real.pl -d</li>
-</ul>
-<h2 id="安装Android_Studio">安装Android Studio</h2><ul>
-<li>sudo add-apt-repository ppa:paolorotolo/android-studio</li>
-<li>sudo apt-get update</li>
-<li>sudo apt-get install android-studio</li>
-</ul>
-<p>中途会遇到<br>Network unreachable<br>解决办法 设置HTTP代理</p>
-<h2 id="如何为终端设置HTTP代理">如何为终端设置HTTP代理</h2><p><code>export http_proxy=http://yourproxyaddress:proxyport</code>  </p>
-<p>如果使用sudo执行apt-get<br>则在su root以后，再  </p>
-<p><code>export http_proxy=http://yourproxyaddress:proxyport</code></p>
-<p>或者</p>
-<p><code>Defaults env_keep = &quot;http_proxy https_proxy ftp_proxy&quot;</code></p>
-<p><a href="https://help.ubuntu.com/community/AptGet/Howto" target="_blank" rel="external">参考链接</a><br>若安装完，android studio不能启动程序，则重启即可。</p>
-<h2 id="开启ssh服务">开启ssh服务</h2><p><code>sudo apt-get install openssh-server</code></p>
-<p><code>/etc/init.d/ssh start</code></p>
-<h2 id="安装正确的JDK">安装正确的JDK</h2><p><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="external">下载地址JDK</a></p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Installing the Sun Java <span class="number">6</span> JDK <span class="keyword">in</span> Ubuntu <span class="number">14.04</span></span><br><span class="line"></span><br><span class="line">$ chmod +x jdk-<span class="number">6</span>u45-linux-x64.sh</span><br><span class="line">$ sudo ./jdk-<span class="number">6</span>u33-linux-x64.sh</span><br><span class="line">$ sudo mv jdk1.6.0_45<span class="regexp">/ /</span>usr<span class="regexp">/lib/</span>jvm/</span><br><span class="line">$ sudo update-alternatives --install <span class="regexp">/usr/</span>bin<span class="regexp">/java java /</span>usr<span class="regexp">/lib/</span>jvm<span class="regexp">/jdk1.6.0_45/</span>bin/java <span class="number">1</span></span><br><span class="line">$ sudo update-alternatives --install <span class="regexp">/usr/</span>bin<span class="regexp">/javac javac /</span>usr<span class="regexp">/lib/</span>jvm<span class="regexp">/jdk1.6.0_45/</span>bin/javac <span class="number">1</span></span><br><span class="line">$ sudo update-alternatives --install <span class="regexp">/usr/</span>bin<span class="regexp">/javaws javaws /</span>usr<span class="regexp">/lib/</span>jvm<span class="regexp">/jdk1.6.0_45/</span>bin/javaws <span class="number">1</span></span><br><span class="line">$ sudo update-alternatives --config java</span><br><span class="line">然后选择<span class="number">1.6</span>.0的java</span><br><span class="line">$ sudo update-alternatives --config javac</span><br><span class="line">同样选择包含<span class="number">1.6</span>.0的java</span><br><span class="line">$ sudo update-alternatives --config javaws</span><br><span class="line">同上选择</span><br></pre></td></tr></table></figure>
-<h2 id="Android_Studio_设置代理">Android Studio 设置代理</h2><p>设置HTTP代理即可</p>
-<h2 id="安装SDK">安装SDK</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Q1:unable <span class="keyword">to</span> <span class="command">run</span> mksdcard sdk tool</span><br><span class="line">A1:sudo apt-<span class="keyword">get</span> install lib32z1 lib32ncurses5 lib32bz2-<span class="number">1.0</span> lib32stdc++<span class="number">6</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置环境变量">配置环境变量</h2><p>配置完就可以使用adb之类的了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim ~/.bashrc</span><br><span class="line"><span class="comment">#Android SDK</span></span><br><span class="line"><span class="built_in">export</span> SDK_PATH=/home/ret2me/Android/Sdk</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$&#123;SDK_PATH&#125;</span>/platform-tools</span><br><span class="line">$ <span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
-<h2 id="设置代理下载源码">设置代理下载源码</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ export HTTP_PROXY=http://<span class="tag">&lt;<span class="title">proxy_user_id</span>&gt;</span>:<span class="tag">&lt;<span class="title">proxy_password</span>&gt;</span>@<span class="tag">&lt;<span class="title">proxy_server</span>&gt;</span>:<span class="tag">&lt;<span class="title">proxy_port</span>&gt;</span></span><br><span class="line">$ export HTTPS_PROXY=http://<span class="tag">&lt;<span class="title">proxy_user_id</span>&gt;</span>:<span class="tag">&lt;<span class="title">proxy_password</span>&gt;</span>@<span class="tag">&lt;<span class="title">proxy_server</span>&gt;</span>:<span class="tag">&lt;<span class="title">proxy_port</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这次下载的是android-6.0.1_r3版本，下载源码和git配置与之前的方法一样，<a href="http://to0rto.com/2015/04/06/Android%E7%BC%96%E8%AF%91%E6%BA%90%E7%A0%81%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8A%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3/" target="_blank" rel="external">详见</a></p>
-<h2 id="编译设置ccache">编译设置ccache</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prebuilts<span class="regexp">/misc/</span>linux-x86_64<span class="regexp">/swig/</span>ccache-swig -M <span class="number">50</span>G</span><br><span class="line">prebuilts<span class="regexp">/misc/</span>linux-x86<span class="regexp">/ccache/</span>ccache -M <span class="number">50</span>G</span><br></pre></td></tr></table></figure>
-<h2 id="Android源码编译清理">Android源码编译清理</h2><ol>
-<li>在源码目录的根目录下，makeclean;</li>
-<li>进到源码的\linux\kernel\目录下，执行makemrproper；</li>
-<li>再退回到根目录，执行sourcebuild/envsetup.sh,lunch,make.</li>
-</ol>
-<h2 id="编译之后">编译之后</h2><p>执行emulator<br><code>emulator -system system.img -data userdata.img -ramdisk ramdisk.img</code><br>出现如下错误</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">emulator: ERROR: You did <span class="operator">not</span> specify <span class="operator">a</span> virtual device name, <span class="operator">and</span> <span class="operator">the</span> <span class="keyword">system</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">directory</span> could <span class="operator">not</span> be found.</span><br><span class="line"></span><br><span class="line">If you are <span class="operator">an</span> Android SDK user, please use <span class="string">'@&lt;name&gt;'</span> <span class="operator">or</span> <span class="string">'-avd &lt;name&gt;'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">to</span> <span class="built_in">start</span> <span class="operator">a</span> given virtual device (see -help-avd <span class="keyword">for</span> details).</span><br><span class="line"></span><br><span class="line">Otherwise, follow <span class="operator">the</span> instructions <span class="operator">in</span> -help-disk-images <span class="built_in">to</span> <span class="built_in">start</span> <span class="operator">the</span> emulator</span><br></pre></td></tr></table></figure>
-<p>解决：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source build/envsetup<span class="class">.sh</span></span><br><span class="line">lunch sdk-eng</span><br></pre></td></tr></table></figure></p>
-<p>然后再执行<br>emulator<br>可以启动模拟器</p>
-
+<li>确认密码
         
         
         <p class="article-more-link">
+          
+            <a href="/2015/12/24/从安装ubuntu虚拟机开始配置android编译全过程/#more">Read More</a>
           
        </p>
     </div>
@@ -811,7 +781,7 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Android/" title="Android">Android<sup>9</sup></a></li>
+			<li><a href="/categories/Android/" title="Android">Android<sup>10</sup></a></li>
 		  
 		
 		  
